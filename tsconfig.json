@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "types": ["@testing-library/jest-dom"],
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/layout/*": ["src/components/layout/*"],
+      "@/widgets/*": ["src/components/widgets/*"],
+      "@/components/*": ["src/components/*"],
+      "@/contexts/*": ["src/core/contexts/*"],
+      "@/helpers/*": ["src/core/helpers/*"],
+      "@/hooks/*": ["src/core/hooks/*"],
+      "@/interfaces/*": ["src/core/interfaces/*"],
+      "@/normalizers/*": ["src/core/normalizers/*"],
+      "@/shared/*": ["src/core/shared/*"],
+      "@/icons/*": ["src/icons/*"]
+    },
+    "noEmit": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "rootDir": "src",
+    "outDir": "build"
+  },
+  "include": ["next-env.d.ts", "./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

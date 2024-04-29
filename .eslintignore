@@ -1,0 +1,4 @@
+*.png
+*.css
+tailwind.config.js
+replace.js
