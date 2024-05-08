@@ -1,27 +1,14 @@
 type pageDocsMd = {
-  id: string;
-  name?: string;
-  title?: string;
   markdown?: string;
 };
 
-type pageDocsTestsEndpoints = {
-  id: string;
-  name?: string;
-  description?: string;
-  path?: string;
-  method?: string;
-  payload?: string;
-  headers?: string;
-  resposta?: string;
-};
-
-export type PageType = pageDocsMd | pageDocsTestsEndpoints;
+export type contentType = pageDocsMd;
 
 export type SchemaType = {
-  id: string;
-  title?: string;
-  name?: string;
-  children?: SchemaType[];
-  page?: PageType[];
+  dynamicId: string; // gerado pela api yggdrasil
+  tags?: string[]; // gerado pelo midgard
+  errors?: string[];
+  title: string; // gerado pelo midgard
+  originName: string;
+  content: contentType[]; // gerado pelo midgard
 };

@@ -2,19 +2,20 @@ import { useContext, useEffect, useState } from 'react';
 import { SchemaType } from '@/interfaces/api';
 import { DataContext } from '@/contexts/dataProvider';
 import { getUrlApi } from './getUrlApi';
+import axios from 'axios';
 
-export const useFetchDocsAndSaveContext = (): { error: string; isLoading: boolean } => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+export const useFetchDocsAndSaveContext = () => {
   const { currentUrlOrigin } = getUrlApi();
-  const { setData } = useContext(DataContext);
+  const { setData, setError, setIsLoading } = useContext(DataContext);
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${currentUrlOrigin}`)
-      .then((res: Response) => res.json())
-      .then((dataApi: SchemaType[]) => {
-        setData(dataApi);
+    setError('');
+    axios
+      .get<SchemaType[]>(`${currentUrlOrigin}`)
+
+      .then((dataApi) => {
+        setData(dataApi.data);
       })
       .catch(() => {
         setError('Erro ao fazer requisição');
@@ -23,9 +24,4 @@ export const useFetchDocsAndSaveContext = (): { error: string; isLoading: boolea
         setIsLoading(false);
       });
   }, []);
-
-  return {
-    error,
-    isLoading,
-  };
 };

@@ -4,36 +4,20 @@
   "homepage": "/docs",
   "private": false,
   "main": "build/index.js",
+  "type": "module",
   "scripts": {
     "deploy": "gh-pages -d build",
-    "dev": "vite",
-    "build": "yarn clear && vite build && node replace.js",
+    "dev": "vite --port 5173 --host",
+    "build": "yarn clear && tsc && vite build && node replace.js",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage --watch=false",
     "preview": "vite preview",
     "clear": "rm -rf build coverage",
     "check": "tsc -p .",
-    "lint": "eslint -c ./.eslintrc.js --fix && tsc -p .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prepare": "husky install",
     "format": "prettier src/* --write"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -43,18 +27,18 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
     "@types/react-syntax-highlighter": "^15.5.11",
     "@types/uuid": "^9.0.8",
-    "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@typescript-eslint/parser": "^7.7.1",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/ui": "^1.5.2",
     "autoprefixer": "^10.4.19",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.30.0",
+    "eslint": "^8.57.0",
     "eslint-config-cypress": "^0.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.2",
@@ -66,27 +50,31 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "eslint-plugin-sonarjs": "^0.17.0",
     "eslint-plugin-spellcheck": "^0.0.20",
     "eslint-plugin-storybook": "^0.6.13",
     "gh-pages": "^6.1.1",
     "husky": "^9.0.11",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.10",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
     "vitest": "^1.5.2"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "axios": "^1.6.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
     "react-syntax-highlighter": "^15.5.0",
+    "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.0"
   }
 }

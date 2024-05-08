@@ -4,11 +4,8 @@
 import { ReactElement } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getUrlApi } from '@/hooks/getUrlApi';
 import { Code } from './code';
 import { Blockquote } from './blockquote';
-
-const { currentUrlOrigin } = getUrlApi();
 
 export const MarkdownToHtml = ({ body }: { body: string }): ReactElement => {
   return (
@@ -48,7 +45,7 @@ export const MarkdownToHtml = ({ body }: { body: string }): ReactElement => {
 
           hr: () => <hr className="bg-transparent border-b-1 border-b-gray-100 my-4" />,
 
-          img: ({ src, title }) => <img src={`${currentUrlOrigin}${src}`} alt={title} />,
+          img: ({ src, title }) => <img src={`${src}`} alt={title} />,
 
           table: ({ children }) => (
             <table className="table-auto w-full text-lg dark:text-gray-200 text-gray-600 my-4 dark:bg-[#282A36] bg-gray-200">
@@ -68,6 +65,7 @@ export const MarkdownToHtml = ({ body }: { body: string }): ReactElement => {
           ul: ({ children }) => (
             <ul className="text-lg dark:text-gray-200 text-gray-600 list-disc my-3 mx-4">{children}</ul>
           ),
+
           // @ts-ignore
           code: ({ inline, className, children }): ReactElement => {
             return (

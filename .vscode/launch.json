@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/@react-refresh/**"],
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      },
+      "sourceMaps": true
+    }
+  ]
+}

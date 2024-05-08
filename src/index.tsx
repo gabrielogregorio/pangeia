@@ -6,12 +6,12 @@ import { DataProvider } from './core/contexts/dataProvider';
 import { MenuProvider } from './core/contexts/menuProvider';
 import App from './App';
 import { ThemeProvider } from './core/contexts/themProvider';
-import { DataSelectedProvider } from '@/contexts/dataSelectedProvider';
+import { DocSelectedProvider } from '@/contexts/docSelectedProvider';
 
 const root: ReactDOM.Root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <DataSelectedProvider>
+    <DocSelectedProvider>
       <ThemeProvider>
         <MenuProvider>
           <DataProvider>
@@ -23,6 +23,6 @@ root.render(
           </DataProvider>
         </MenuProvider>
       </ThemeProvider>
-    </DataSelectedProvider>
+    </DocSelectedProvider>
   </React.StrictMode>,
 );
