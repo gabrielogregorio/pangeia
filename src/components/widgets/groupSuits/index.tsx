@@ -26,6 +26,7 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
         // fix filter system
         const notExistsMatchFilterInRouterOrTexts: boolean =
           !normalizeStrings(groupCase.title).includes(filterNormalized) &&
+          !normalizeStrings(groupCase.tags?.join(' ')).includes(filterNormalized) &&
           !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
 
         if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {

@@ -13,7 +13,7 @@ export const HandlerShowDocs = ({ docSelected }: Props): ReactElement => {
         const key = `${docSelected.title}-${docSelected.dynamicId}`;
 
         if ('markdown' in page) {
-          return <InterpreterMarkdown text={page.markdown || ''} key={key} />;
+          return <InterpreterMarkdown tags={docSelected.tags} text={page.markdown || ''} key={key + page.dynamicId} />;
         }
 
         return <div>Está documentação não está mapeada {JSON.stringify(page)}</div>;
