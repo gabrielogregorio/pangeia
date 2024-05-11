@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { SchemaType } from '@/interfaces/api';
 import { DataContext } from '@/contexts/dataProvider';
 import { getUrlApi } from './getUrlApi';

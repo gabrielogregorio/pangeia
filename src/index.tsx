@@ -7,20 +7,22 @@ import { MenuProvider } from './core/contexts/menuProvider';
 import App from './App';
 import { ThemeProvider } from './core/contexts/themProvider';
 import { DocSelectedProvider } from '@/contexts/docSelectedProvider';
-
+import { ModeProvider } from '@/contexts/devProvider';
 
 const root: ReactDOM.Root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <DocSelectedProvider>
     <ThemeProvider>
       <MenuProvider>
-        <DataProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="*" element={<App />} />
-            </Routes>
-          </BrowserRouter>
-        </DataProvider>
+        <ModeProvider>
+          <DataProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="*" element={<App />} />
+              </Routes>
+            </BrowserRouter>
+          </DataProvider>
+        </ModeProvider>
       </MenuProvider>
     </ThemeProvider>
   </DocSelectedProvider>,

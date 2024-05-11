@@ -2,11 +2,14 @@ import { ReactElement, useContext } from 'react';
 import { ThemeContext } from '@/contexts/themProvider';
 import { MenuContext } from '@/contexts/menuProvider';
 import { IconDark, IconLight, IconMenu, MainLogo } from '@/icons/index';
+import { ModeContext } from '@/contexts/devProvider';
 
 export const Header = (): ReactElement => {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { mode, togglemode } = useContext(ModeContext);
   const { toggleMenuIsOpen } = useContext(MenuContext);
-  const styleTheme: string = theme === 'white' ? 'left-0' : 'translate-x-10';
+  const styleTheme = theme === 'white' ? 'left-0' : 'translate-x-10';
+  const styleMode = mode === 'dev' ? 'left-0' : 'translate-x-10';
 
   return (
     <div
@@ -34,6 +37,26 @@ export const Header = (): ReactElement => {
         <div className="flex-1" />
 
         <div>
+          <button
+            type="button"
+            data-testid="change-theme"
+            onClick={(): void => togglemode()}
+            className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 w-16 flex rounded-xl relative">
+            <div
+              className={`h-full aspect-square rounded-full bg-white absolute transition-all duration-150 top-0 ${styleMode}`}
+            />
+
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-[12px] flex items-center justify-center h-[25px]">🧑‍💻</div>
+            </div>
+
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-[12px] flex items-center justify-center h-[25px]">⭐</div>
+            </div>
+          </button>
+        </div>
+
+        <div className="pl-4">
           <button
             type="button"
             data-testid="change-theme"

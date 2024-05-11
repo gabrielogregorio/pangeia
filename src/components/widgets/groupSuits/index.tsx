@@ -1,46 +1,67 @@
-import { ReactElement, useContext } from 'react';
-import { normalizeStrings } from '@/normalizers/strings';
+import { ReactElement, useContext, useEffect, useState } from 'react';
 import { DataContext } from '@/contexts/dataProvider';
-import { InfoItem } from '@/components/infoItem';
-import { docSelectedContext } from '@/contexts/docSelectedProvider';
+import { SchemaType } from '@/interfaces/api';
+import { ContextItems } from '@/widgets/groupSuits/contextItems';
+
+// enviar para api
+const contexts: {
+  tags: string[];
+  title: string;
+}[] = [];
+
+// melhorar isso haha
+type hiearquiqueModelType = {
+  [key: string]: SchemaType[];
+};
+
+const sortByContexts = (data: SchemaType[]): hiearquiqueModelType => {
+  let byContexts: { [key: string]: SchemaType[] } = {};
+  let semContexto: { [key: string]: SchemaType[] } = {};
+
+  data.forEach((dataBasse) => {
+    let foundAnyContext = false;
+
+    contexts.forEach((item) => {
+      if (foundAnyContext) {
+        return;
+      }
+
+      const temTodasAsTags = item.tags.every((tagLocal) => dataBasse.tags?.includes(tagLocal));
+      if (temTodasAsTags) {
+        if (byContexts[item.title]) {
+          byContexts[item.title].push(dataBasse);
+        } else {
+          byContexts[item.title] = [dataBasse];
+        }
+        foundAnyContext = true;
+      }
+    });
+
+    // criar modo de alternancia de hierarquia ou não... se tiver uma só expandir
+    if (!foundAnyContext) {
+      if (semContexto['Documentação']) {
+        semContexto['Documentação'].push(dataBasse);
+      } else {
+        semContexto['Documentação'] = [dataBasse];
+      }
+    }
+  });
+
+  return { ...byContexts, ...semContexto };
+};
 
 export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
   const { data } = useContext(DataContext);
-  const { setDocSelected } = useContext(docSelectedContext);
+  const [dataWithContext, setDataWithontext] = useState<hiearquiqueModelType>({});
+
+  useEffect(() => {
+    setDataWithontext(sortByContexts(data));
+  }, [data]);
 
   return (
-    <div>
-      <div className="flex flex-col p-2">
-        <div className="flex justify-center">
-          <div className="flex-1">
-            <h2 className="text-lg font-bold dark:text-gray-200 text-gray-600 uppercase hover:text-blue-500">
-              {'Sem título - fix me'}
-            </h2>
-          </div>
-        </div>
-      </div>
-
-      {data.map((groupCase): ReactElement => {
-        const filterNormalized: string = normalizeStrings(filter);
-
-        // fix filter system
-        const notExistsMatchFilterInRouterOrTexts: boolean =
-          !normalizeStrings(groupCase.title).includes(filterNormalized) &&
-          !normalizeStrings(groupCase.tags?.join(' ')).includes(filterNormalized) &&
-          !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
-
-        if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {
-          return <div />;
-        }
-
-        return (
-          <InfoItem
-            key={groupCase.dynamicId}
-            isSelected={false}
-            onClick={(): void => setDocSelected(groupCase)}
-            title={groupCase.title || 'Sem título'}
-          />
-        );
+    <div className="">
+      {Object.keys(dataWithContext).map((item) => {
+        return <ContextItems contextName={item} data={dataWithContext[item]} filter={filter} />;
       })}
     </div>
   );

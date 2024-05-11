@@ -12,6 +12,7 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn .8s ease-in-out',
+        fadeInSpeed: 'fadeIn .3s ease-in-out',
       },
       keyframes: () => ({
         fadeIn: {
@@ -21,7 +22,9 @@ module.exports = {
       }),
       colors: {
         white: '#ffffff',
+        'white-smooth': '#e8e8e8',
         dark: '#1B2430',
+        'dark-max': '#181e29',
       },
     },
   },
