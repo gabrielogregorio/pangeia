@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useEffect, useState } from 'react';
 import { normalizeStrings } from '@/normalizers/strings';
 import { InfoItem } from '@/components/infoItem';
-import { docSelectedContext } from '@/contexts/docSelectedProvider';
+import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { MenuContext } from '@/contexts/menuProvider';
 import { SchemaType } from '@/interfaces/api';
 import { Collapse } from '@/widgets/Collapse';
@@ -17,10 +17,10 @@ export const ContextItems = ({
   filter: string;
   contextName: string;
 }): ReactElement => {
-  const { setDocSelected, docSelected } = useContext(docSelectedContext);
+  const { setDocSelected, docSelected } = useContext(DocSelectedContext);
   const { setMenuIsOpen } = useContext(MenuContext);
   const [contextIsOpen, setContextIsOpen] = useState(false);
-  const [hiddenIfNotChildrens, setHiddenX] = useState(false);
+  const [hiddenIfNotChildren, setHiddenX] = useState(false);
 
   useEffect(() => {
     setHiddenX(false);
@@ -31,7 +31,7 @@ export const ContextItems = ({
 
   return (
     <div>
-      <div className={`flex flex-col ${hiddenIfNotChildrens ? '' : 'hidden'}`}>
+      <div className={`flex flex-col ${hiddenIfNotChildren ? '' : 'hidden'}`}>
         <div className="flex justify-center">
           <div className="flex-1">
             <h2 className="">
@@ -60,10 +60,10 @@ export const ContextItems = ({
               !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
 
             if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {
-              return <div />;
+              return <div key={groupCase.dynamicId} />;
             }
 
-            if (!hiddenIfNotChildrens) {
+            if (!hiddenIfNotChildren) {
               setHiddenX(true);
             }
 

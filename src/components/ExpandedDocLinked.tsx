@@ -15,7 +15,7 @@ export const ExpandedDocLinked = ({ reference }: { reference: string }) => {
 
   // needs refactor
 
-  const docByTagFounded = findDocByTags(data, tags);
+  const docByTagFounded = findDocByTags(data.schema, tags);
   const docReferenceIsExpanded = referenceIsExpanded ? docByTagFounded : '';
   const content = docReferenceIsExpanded ? (
     <HandlerShowDocs isInExpandedDoc docSelected={docReferenceIsExpanded} />
@@ -30,7 +30,7 @@ export const ExpandedDocLinked = ({ reference }: { reference: string }) => {
         <button
           type="button"
           onClick={() => setReferenceIsExpanded((prev) => !prev)}
-          className="cursor-pointer flex items-center gap-2">
+          className="cursor-pointer flex items-center gap-2 w-full py-2">
           <div>{referenceIsExpanded ? <FaCircleMinus /> : <FaPlusCircle />}</div>
           <div>{docByTagFounded ? contextReference + docByTagFounded.title : `ref não encontrado ${reference}`} </div>
         </button>

@@ -1,20 +1,20 @@
 import { ReactElement, useContext } from 'react';
-import { docSelectedContext } from '@/contexts/docSelectedProvider';
+import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { DataContext } from '@/contexts/dataProvider';
 import { HandlerShowDocs } from '@/widgets/documentation/HandlerShowDocs';
 import { Status } from '@/components/base/Status';
 
 export const Documentation = (): ReactElement => {
-  const { docSelected } = useContext(docSelectedContext);
+  const { docSelected } = useContext(DocSelectedContext);
   const { isLoading, error } = useContext(DataContext);
 
   if (isLoading || error) {
-    return <Status isLoading={isLoading} error={error} />;
+    return <Status key="status" isLoading={isLoading} error={error} />;
   }
 
   if (!docSelected) {
-    return <div>Nenhuma documentação selecionada</div>;
+    return <div key={'não encontrado'}>Nenhuma documentação selecionada</div>;
   }
 
-  return <HandlerShowDocs docSelected={docSelected} />;
+  return <HandlerShowDocs key="data" docSelected={docSelected} />;
 };

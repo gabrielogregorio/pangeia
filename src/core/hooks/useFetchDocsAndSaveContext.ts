@@ -1,5 +1,7 @@
+/* eslint-disable max-lines-per-function */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from 'react';
-import { SchemaType } from '@/interfaces/api';
+import { SchemaType, responseApi } from '@/interfaces/api';
 import { DataContext } from '@/contexts/dataProvider';
 import { getUrlApi } from './getUrlApi';
 import axios from 'axios';
@@ -14,21 +16,23 @@ export const useFetchDocsAndSaveContext = () => {
     setIsLoading(true);
     setError('');
     try {
-      const dataApi = await axios.get<SchemaType[]>(`${currentUrlOrigin}`);
+      const dataApi = await axios.get<responseApi>(`${currentUrlOrigin}`);
 
-      let finalData = dataApi.data;
+      const finalData = dataApi.data.schema;
 
-      let errorsSchemas: SchemaType['content'] = [];
+      const errorsSchema: SchemaType['content'] = [];
       finalData.map((item) => {
         item.errors?.forEach((item2) => {
-          errorsSchemas.push({
+          errorsSchema.push({
             markdown: `HANDLER ${item.handlerName} - ${item2}`,
+            type: 'md',
+            subType: 'dev',
             dynamicId: Math.random().toString(),
           });
         });
       });
 
-      if (errorsSchemas.length) {
+      if (errorsSchema.length) {
         finalData.unshift({
           originName: 'midgard-reports',
           title: '❌ Erros no midgard',
@@ -38,24 +42,28 @@ export const useFetchDocsAndSaveContext = () => {
           content: [
             {
               dynamicId: Math.random().toString(),
+              type: 'md',
+              subType: 'dev',
               markdown: '# Esse é um relatório de erros no midgard, o sistema que extrai as documentações dos projetos',
             },
-            ...errorsSchemas,
+            ...errorsSchema,
           ],
         });
       }
 
-      let errors: SchemaType['content'] = [];
+      const errors: SchemaType['content'] = [];
       finalData.forEach((item) => {
-        item.content.forEach((itemx) => {
-          const references = extractReferences(itemx.markdown || '');
-          references.forEach((itemRefence) => {
-            if (itemRefence.type === 'reference') {
-              const docByTagFounded = findDocByTags(finalData, itemRefence.reference.split('.'));
+        item.content.forEach((itemLocal) => {
+          const references = extractReferences(itemLocal.markdown || '');
+          references.forEach((itemReference) => {
+            if (itemReference.type === 'reference') {
+              const docByTagFounded = findDocByTags(finalData, itemReference.reference.split('.'));
               if (!docByTagFounded) {
                 errors.push({
                   dynamicId: Math.random().toString(),
-                  markdown: `- ❌ [${item.originName}] Erro ao analisar "${item.title}"  com tags "${item.tags?.join('.')}", a referência "${itemRefence.reference}" do conteudo não foi encontrada, e está quebrada`,
+                  type: 'md',
+                  subType: 'dev',
+                  markdown: `- ❌ [${item.originName}] Erro ao analisar "${item.title}"  com tags "${item.tags?.join('.')}", a referência "${itemReference.reference}" do conteudo não foi encontrada, e está quebrada`,
                 });
               }
             }
@@ -73,6 +81,8 @@ export const useFetchDocsAndSaveContext = () => {
           content: [
             {
               dynamicId: Math.random().toString(),
+              type: 'md',
+              subType: 'dev',
               markdown:
                 '# Esse é um relatório de referências quebradas\n Esses erros são acessos como o ref.algumaCoisa mas que não foi encontrado nenhuma referência para o path usado. Isso acontece por exemplo quando em uma documentação você usa um `ref.algoQueNãoExiste`. Essa pagina irá sumir assim que todas as referências forem resolvidas',
             },
@@ -81,7 +91,10 @@ export const useFetchDocsAndSaveContext = () => {
         });
       }
 
-      setData(finalData);
+      setData({
+        schema: finalData,
+        hierarchy: dataApi.data.hierarchy,
+      });
     } catch (error) {
       setError('Erro ao fazer requisição');
     } finally {

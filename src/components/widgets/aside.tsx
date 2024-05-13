@@ -42,6 +42,7 @@ export const Aside = (): ReactElement => {
         <div className="overflow-y-scroll" style={{ height: `calc(${innerHeight}px - 120px)` }}>
           <div className="px-2">
             <GroupSuits filter={filter} />
+            <div className="min-h-[5rem]"></div>
           </div>
         </div>
       </nav>

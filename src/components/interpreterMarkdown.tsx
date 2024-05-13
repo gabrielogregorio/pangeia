@@ -10,14 +10,20 @@ type InterpreterMarkdownInterface = {
   tags?: string[];
 };
 
-export const InterpreterMarkdown = ({ text, tags, isInExpandedDoc }: InterpreterMarkdownInterface): ReactElement => {
+export const InterpreterMarkdown = ({
+  text,
+  tags = [],
+  isInExpandedDoc = false,
+}: InterpreterMarkdownInterface): ReactElement => {
   const references = extractReferences(text);
   const { mode } = useContext(ModeContext);
 
   return (
     <div>
       {mode === 'dev' ? (
-        <div className="animate-fadeInSpeed" key="tags">
+        <div
+          className="animate-fadeInSpeed whitespace-nowrap overflow-hidden text-ellipsis px-4 my-2 text-gray-500 text-sm dark:text-gray-400"
+          key="tags">
           tags: <span className="select-all cursor-copy">(ref.{tags?.join('.')})</span>
         </div>
       ) : undefined}

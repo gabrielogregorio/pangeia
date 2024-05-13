@@ -1,37 +1,31 @@
 import { ReactElement, useContext, useEffect, useState } from 'react';
 import { DataContext } from '@/contexts/dataProvider';
-import { SchemaType } from '@/interfaces/api';
+import { SchemaType, responseApi } from '@/interfaces/api';
 import { ContextItems } from '@/widgets/groupSuits/contextItems';
 
-// enviar para api
-const contexts: {
-  tags: string[];
-  title: string;
-}[] = [];
-
 // melhorar isso haha
-type hiearquiqueModelType = {
+type hierarchicalModelType = {
   [key: string]: SchemaType[];
 };
 
-const sortByContexts = (data: SchemaType[]): hiearquiqueModelType => {
-  let byContexts: { [key: string]: SchemaType[] } = {};
-  let semContexto: { [key: string]: SchemaType[] } = {};
+const sortByContexts = (data: responseApi): hierarchicalModelType => {
+  const byContexts: { [key: string]: SchemaType[] } = {};
+  const withoutContext: { [key: string]: SchemaType[] } = {};
 
-  data.forEach((dataBasse) => {
+  data.schema.forEach((dataBase) => {
     let foundAnyContext = false;
 
-    contexts.forEach((item) => {
+    data.hierarchy.forEach((item) => {
       if (foundAnyContext) {
         return;
       }
 
-      const temTodasAsTags = item.tags.every((tagLocal) => dataBasse.tags?.includes(tagLocal));
-      if (temTodasAsTags) {
+      const hasAllTags = item.tags.every((tagLocal) => dataBase.tags?.includes(tagLocal));
+      if (hasAllTags) {
         if (byContexts[item.title]) {
-          byContexts[item.title].push(dataBasse);
+          byContexts[item.title].push(dataBase);
         } else {
-          byContexts[item.title] = [dataBasse];
+          byContexts[item.title] = [dataBase];
         }
         foundAnyContext = true;
       }
@@ -39,29 +33,29 @@ const sortByContexts = (data: SchemaType[]): hiearquiqueModelType => {
 
     // criar modo de alternancia de hierarquia ou não... se tiver uma só expandir
     if (!foundAnyContext) {
-      if (semContexto['Documentação']) {
-        semContexto['Documentação'].push(dataBasse);
+      if (withoutContext['Documentação']) {
+        withoutContext['Documentação'].push(dataBase);
       } else {
-        semContexto['Documentação'] = [dataBasse];
+        withoutContext['Documentação'] = [dataBase];
       }
     }
   });
 
-  return { ...byContexts, ...semContexto };
+  return { ...byContexts, ...withoutContext };
 };
 
 export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
   const { data } = useContext(DataContext);
-  const [dataWithContext, setDataWithontext] = useState<hiearquiqueModelType>({});
+  const [dataWithContext, setDataWithContext] = useState<hierarchicalModelType>({});
 
   useEffect(() => {
-    setDataWithontext(sortByContexts(data));
+    setDataWithContext(sortByContexts(data));
   }, [data]);
 
   return (
     <div className="">
-      {Object.keys(dataWithContext).map((item) => {
-        return <ContextItems contextName={item} data={dataWithContext[item]} filter={filter} />;
+      {Object.keys(dataWithContext).map((key) => {
+        return <ContextItems contextName={key} key={key} data={dataWithContext[key]} filter={filter} />;
       })}
     </div>
   );

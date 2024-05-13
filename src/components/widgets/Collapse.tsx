@@ -1,5 +1,5 @@
 import { useCurrentWindowSize } from '@/hooks/useCurrentWindowSize';
-import { MutableRefObject, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 
 type collapseType = {
   isOpen: boolean;
@@ -27,7 +27,7 @@ export const Collapse = ({
     const newHeightStyle: { maxHeight: string } = {
       maxHeight: isOpen ? `${sizeAnimation}px` : CLOSE_HEIGHT.toString(),
     };
-    
+
     setDynamicMaxHeight(newHeightStyle);
   }, [sizeBrowser, isOpen, children, forceRender]);
 
@@ -37,7 +37,7 @@ export const Collapse = ({
 
   return (
     <div
-      className={`${!disableAnimation ? '' : 'transition-all ease-in-out duration-500'} overflow-hidden`}
+      className={`${disableAnimation ? '' : 'transition-all ease-in-out duration-500'} overflow-hidden`}
       style={disableAnimation && isOpen ? {} : dynamicMaxHeight}>
       <div ref={ref}>{children}</div>
     </div>

@@ -1,4 +1,4 @@
-const regex = /\(ref\.([\d\w\s\/\_\-\.]{1,})\)/;
+const regex = /\(ref\.([\d\w\s/_\-.]{1,})\)/;
 
 const addNewLinesForEachReference = (text: string) => {
   return text.replace(regex, (match) => `\n${match}\n`);
@@ -7,38 +7,38 @@ const addNewLinesForEachReference = (text: string) => {
 type returnType = { type: 'text'; content: string } | { type: 'reference'; reference: string };
 
 export const extractReferences = (originalText: string): returnType[] => {
-  const mapaCompleto: returnType[] = [];
-  let textWithReferencesInNewLine = addNewLinesForEachReference(originalText);
-  let ultimoTexto = '';
+  const fullMap: returnType[] = [];
+  const textWithReferencesInNewLine = addNewLinesForEachReference(originalText);
+  let lastText = '';
 
   textWithReferencesInNewLine.split('\n').forEach((line) => {
     const find = line.match(regex);
     if (!find) {
-      ultimoTexto += '\n' + line;
+      lastText += line ? '\n' + line : line;
       return;
     }
 
-    if (ultimoTexto) {
-      mapaCompleto.push({
+    if (lastText) {
+      fullMap.push({
         type: 'text',
-        content: ultimoTexto,
+        content: lastText,
       });
-      ultimoTexto = '';
+      lastText = '';
     }
 
-    mapaCompleto.push({
+    fullMap.push({
       type: 'reference',
       reference: find[1],
     });
   });
 
-  if (ultimoTexto) {
-    mapaCompleto.push({
+  if (lastText) {
+    fullMap.push({
       type: 'text',
-      content: ultimoTexto,
+      content: lastText,
     });
-    ultimoTexto = '';
+    lastText = '';
   }
 
-  return mapaCompleto;
+  return fullMap;
 };

@@ -3,7 +3,7 @@ import { Context, createContext, ReactElement, ReactNode, useMemo, useState } fr
 
 export type initialStateSelectedType = SchemaType | null;
 
-const initialStatedocSelected: initialStateSelectedType = null;
+const initialStateDocSelected: initialStateSelectedType = null;
 
 type docSelectedContextType = {
   docSelected: initialStateSelectedType;
@@ -11,16 +11,16 @@ type docSelectedContextType = {
   resetDocSelected: () => void;
 };
 
-export const docSelectedContext: Context<docSelectedContextType> = createContext({} as docSelectedContextType);
+export const DocSelectedContext: Context<docSelectedContextType> = createContext({} as docSelectedContextType);
 
 export const DocSelectedProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const [docSelected, setDocSelected] = useState<initialStateSelectedType>(initialStatedocSelected);
+  const [docSelected, setDocSelected] = useState<initialStateSelectedType>(initialStateDocSelected);
 
   const resetDocSelected = (): void => {
-    setDocSelected(initialStatedocSelected);
+    setDocSelected(initialStateDocSelected);
   };
 
   const value = useMemo(() => ({ docSelected, setDocSelected, resetDocSelected }), [docSelected]);
 
-  return <docSelectedContext.Provider value={value}>{children}</docSelectedContext.Provider>;
+  return <DocSelectedContext.Provider value={value}>{children}</DocSelectedContext.Provider>;
 };

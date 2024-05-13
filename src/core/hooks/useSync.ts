@@ -1,8 +1,10 @@
-import { docSelectedContext } from '@/contexts/docSelectedProvider';
+import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useSyncUrlWithList = () => {
-  const { docSelected } = useContext(docSelectedContext);
+  const { docSelected } = useContext(DocSelectedContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const paths = docSelected?.tags;
@@ -11,6 +13,6 @@ export const useSyncUrlWithList = () => {
     }
     const pathString = `/${paths.map((url) => encodeURIComponent(url)).join('/')}`;
 
-    window.history.pushState({}, '', pathString);
-  }, [docSelected?.tags]);
+    navigate(pathString);
+  }, [docSelected?.tags, navigate]);
 };

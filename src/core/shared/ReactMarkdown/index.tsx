@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { ReactElement, ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -71,7 +72,9 @@ const aTag = ({ href, children }: { href?: string; children?: ReactNode }): Reac
   </a>
 );
 
-const imgTag = ({ src, title }: { src?: string; title?: string }): ReactElement => <img src={`${src}`} alt={title} />;
+const imgTag = ({ src, title, alt }: { src?: string; alt?: string; title?: string }): ReactElement => (
+  <img src={`${src}`} alt={alt} title={title} />
+);
 
 const codeTag = ({
   inline,

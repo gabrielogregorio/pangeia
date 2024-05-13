@@ -1,6 +1,7 @@
-import { ReactElement } from 'react';
+import { ReactElement, useContext } from 'react';
 import { InterpreterMarkdown } from '@/components/interpreterMarkdown';
 import { SchemaType } from '@/interfaces/api';
+import { ModeContext } from '@/contexts/devProvider';
 
 type Props = {
   docSelected: SchemaType;
@@ -8,26 +9,52 @@ type Props = {
 };
 
 export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props): ReactElement => {
+  const { mode } = useContext(ModeContext);
+
   return (
-    <div className="px-6 py-6 pt-5 animate-fadeInSpeed" key={docSelected.dynamicId}>
+    <div
+      className={`${isInExpandedDoc ? 'px-3 py-1' : 'px-6 py-6 pt-5'} animate-fadeInSpeed`}
+      key={docSelected.dynamicId}>
       {docSelected?.content?.map((page) => {
         const key = `${docSelected.title}-${docSelected.dynamicId}`;
 
         if ('markdown' in page) {
-          // melhorar nome isInExpandedDoc
-          return (
-            <InterpreterMarkdown
-              isInExpandedDoc={isInExpandedDoc}
-              tags={docSelected.tags}
-              text={page.markdown || ''}
-              key={key + page.dynamicId}
-            />
-          );
+          if (page.subType === 'dev' && mode === 'product') {
+            return <div key={page.dynamicId}></div>;
+          }
+
+          if (page.type === 'md') {
+            return (
+              <InterpreterMarkdown
+                isInExpandedDoc={isInExpandedDoc}
+                tags={docSelected.tags}
+                text={page.markdown || ''}
+                key={key + page.dynamicId}
+              />
+            );
+          }
+
+          if (page.type === 'tag' && mode === 'dev') {
+            return (
+              <InterpreterMarkdown
+                isInExpandedDoc={isInExpandedDoc}
+                tags={docSelected.tags}
+                text={page.markdown || ''}
+                key={key + page.dynamicId}
+              />
+            );
+          }
+
+          if (page.type === 'tag' && mode === 'product') {
+            return <div key={page.dynamicId}></div>;
+          }
+
+          console.error('Padrão não mapeado', page);
+          return <div key={page.dynamicId}></div>;
         }
 
-        return <div>Está documentação não está mapeada {JSON.stringify(page)}</div>;
+        return <div key="not-found-docs">Está documentação não está mapeada {JSON.stringify(page)}</div>;
       })}
-      <span className="border-b-2 block" />
     </div>
   );
 };

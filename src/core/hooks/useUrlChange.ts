@@ -1,40 +1,34 @@
 import { findDocByTags } from '@/components/findDocByTags';
 import { DataContext } from '@/contexts/dataProvider';
-import { docSelectedContext } from '@/contexts/docSelectedProvider';
-import { useContext, useEffect, useState } from 'react';
+import { DocSelectedContext } from '@/contexts/docSelectedProvider';
+import { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const useUrlChange = () => {
-  const [url, setUrl] = useState(window.location.href);
-  const { setDocSelected, docSelected } = useContext(docSelectedContext);
+  const { setDocSelected, docSelected } = useContext(DocSelectedContext);
   const { data } = useContext(DataContext);
+  const history = useLocation();
+  const url = history.pathname;
+
+  const path = url
+    .split('/')
+    .slice(1)
+    .map((item) => decodeURIComponent(item))
+    .filter((item) => item.trim());
 
   useEffect(() => {
-    const handleUrlChange = () => {
-      setUrl(window.location.href);
-    };
-
-    window.addEventListener('popstate', handleUrlChange);
-
-    return () => {
-      window.removeEventListener('popstate', handleUrlChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    const currentUrl = new URL(url).pathname
-      .split('/')
-      .slice(1)
-      .map((item) => decodeURIComponent(item));
-
     // refactor-me
-    if (JSON.stringify(currentUrl) === JSON.stringify(docSelected?.tags)) {
+    if (JSON.stringify(path) === JSON.stringify(docSelected?.tags) || path.length === 0) {
       return;
     }
 
-    const postFounded = findDocByTags(data, currentUrl);
+    const postFounded = findDocByTags(data.schema, path);
     if (postFounded) {
       setDocSelected(postFounded);
     }
-  }, [data]);
-  return url;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, url]);
+
+  return path;
 };

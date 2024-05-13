@@ -1,9 +1,9 @@
 import { Context, createContext, ReactElement, ReactNode, useMemo, useState } from 'react';
-import { SchemaType } from '@/interfaces/api';
+import { responseApi } from '@/interfaces/api';
 
 type DataContextType = {
-  setData: (data: SchemaType[]) => void;
-  data: SchemaType[];
+  setData: (data: responseApi) => void;
+  data: responseApi;
   isLoading: boolean;
   error: string;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,11 +13,11 @@ type DataContextType = {
 export const DataContext: Context<DataContextType> = createContext({} as DataContextType);
 
 export const DataProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const [data, setSuites] = useState<SchemaType[]>([]);
+  const [data, setSuites] = useState<responseApi>({ schema: [], hierarchy: [] });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  const setData = (dataLocal: SchemaType[]): void => {
+  const setData = (dataLocal: responseApi): void => {
     setSuites(dataLocal);
   };
 
