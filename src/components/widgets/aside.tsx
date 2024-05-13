@@ -13,28 +13,29 @@ export const Aside = (): ReactElement => {
 
   const hasAnyFilter = Boolean(filter);
 
-  const styleOnHasFilter = hasAnyFilter
-    ? 'dark:border-b-cyan-500 border-b-cyan-500'
-    : 'border-b-gray-200 dark:border-b-gray-600';
+  const [isFocus, setIsFocus] = useState(false);
+  const styleOnHasFilter =
+    hasAnyFilter || isFocus ? 'dark:border-cyan-700 border-cyan-700' : 'border-gray-200 dark:border-gray-600';
 
   return (
     <aside
-      className={`absolute top-0 ${styleMenuIsOpen} z-20 bottom-0 left-0 lg:relative lg:block lg:col-span-3 bg-white dark:bg-dark-max`}>
+      className={`absolute top-0 ${styleMenuIsOpen} z-20 bottom-0 left-0 lg:relative lg:block lg:col-span-3 bg-white dark:bg-dark-max transition-colors duration-300`}>
       <nav>
-        <div
-          className={`flex items-center border-b-2 ${styleOnHasFilter} m-2 mx-4 transition duration-150 bg-white dark:bg-dark-max `}>
+        <div className={`flex items-center border-2 rounded-md ${styleOnHasFilter} m-2 mx-4 transition duration-150 `}>
           <input
             type="text"
             name="searchRequests"
             value={filter}
             autoComplete="off"
+            onBlur={() => setIsFocus(false)}
+            onFocus={() => setIsFocus(true)}
             onChange={(event: ChangeEvent<HTMLInputElement>): void => setFilter(event.target.value)}
             id="searchRequests"
             placeholder="Pesquise endpoints, textos..."
-            className="w-full text-gray-500 dark:text-gray-300 focus:outline-none p-2 dark:bg-dark-max "
+            className="w-full text-gray-500 dark:text-gray-300 focus:outline-none p-2 dark:bg-dark-max rounded-md "
           />
           {hasAnyFilter ? (
-            <button type="button" className="p-2 animate-fadeInSpeed" onClick={() => setFilter('')}>
+            <button type="button" className="p-2 px-4 animate-fadeInSpeed" onClick={() => setFilter('')}>
               <MdClear />
             </button>
           ) : undefined}

@@ -3,6 +3,8 @@ import { ThemeContext } from '@/contexts/themProvider';
 import { IconDark, IconLight } from '@/icons/index';
 import { ModeContext } from '@/contexts/devProvider';
 import { FaMarkdown } from 'react-icons/fa6';
+import { Modal } from '@/widgets/modal';
+import { useModalController } from '@/hooks/useModalController';
 
 export const Actions = (): ReactElement => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -10,13 +12,16 @@ export const Actions = (): ReactElement => {
   const styleTheme = theme === 'white' ? 'left-0' : 'translate-x-10';
   const styleMode = mode === 'dev' ? 'left-0' : 'translate-x-10';
 
+  const controller = useModalController();
+
   return (
     <div className="flex gap-2">
+      <Modal controller={controller} />
       <div>
         <button
           type="button"
           data-testid="change-theme"
-          onClick={(): void => {}}
+          onClick={(): void => controller.open()}
           className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 rounded-xl flex items-center justify-center px-3 h-full max-h-[32px]">
           <FaMarkdown className="h-[25px]" />
         </button>
@@ -27,7 +32,7 @@ export const Actions = (): ReactElement => {
           type="button"
           data-testid="change-theme"
           onClick={(): void => toggleMode()}
-          className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 w-16 flex rounded-xl relative">
+          className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 w-16 flex rounded-xl relative select-none">
           <div
             className={`h-full aspect-square rounded-full bg-white absolute transition-all duration-150 top-0 ${styleMode}`}
           />
@@ -47,7 +52,7 @@ export const Actions = (): ReactElement => {
           type="button"
           data-testid="change-theme"
           onClick={(): void => toggleTheme()}
-          className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 w-16 flex rounded-xl relative">
+          className="bg-cyan-700 dark:bg-cyan-600 dark:ring-cyan-600 ring-cyan-700 ring-2 w-16 flex rounded-xl relative select-none">
           <div
             className={`h-full aspect-square rounded-full bg-white absolute transition-all duration-150 top-0 ${styleTheme}`}
           />

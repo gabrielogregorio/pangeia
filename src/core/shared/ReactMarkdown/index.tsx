@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm';
 import { Code } from './code';
 import { Blockquote } from './blockquote';
 import { JsxRuntimeComponents } from 'node_modules/react-markdown/lib';
+import { copyToClipboard } from '@/helpers/copyToClipboard';
+import { modeType } from '@/contexts/devProvider';
 
 type Components = Partial<JsxRuntimeComponents>;
 
@@ -16,6 +18,7 @@ const Base = ({ children }: Partial<partialChildrenType>): ReactElement => <div 
 const h1Tag = ({ children }: Partial<partialChildrenType>): ReactElement => (
   <h1 className="text-5xl font-bold dark:text-gray-100 text-gray-700 mb-3 my-6">{children}</h1>
 );
+
 const h2Tag = ({ children }: Partial<partialChildrenType>): ReactElement => (
   <h2 className="text-4xl font-bold dark:text-gray-100 text-gray-700 mb-3 my-6">{children}</h2>
 );
@@ -34,9 +37,11 @@ const h6Tag = ({ children }: Partial<partialChildrenType>): ReactElement => (
 
 const hrTag = () => <hr className="bg-transparent border-b-1 border-b-gray-100 my-4" />;
 const tableTag = ({ children }: Partial<partialChildrenType>): ReactElement => (
-  <table className="table-auto w-full text-lg dark:text-gray-200 text-gray-600 my-4 dark:bg-[#282A36] bg-gray-200">
-    {children}
-  </table>
+  <div className="overflow-auto max-w-full">
+    <table className="table-auto w-full text-lg dark:text-gray-200 text-gray-600 my-4 dark:bg-[#282A36] bg-gray-200">
+      {children}
+    </table>
+  </div>
 );
 
 const thTag = ({ children }: Partial<partialChildrenType>): ReactElement => (
@@ -77,14 +82,19 @@ const imgTag = ({ src, title, alt }: { src?: string; alt?: string; title?: strin
 );
 
 const codeTag = ({
-  inline,
   className,
   children,
+  node,
 }: {
   className?: string;
   children?: ReactNode;
-  inline?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  node?: any;
 }): ReactElement => {
+  const startLine = node?.position?.start?.line;
+  const endLine = node?.position?.end?.line;
+
+  const inline = typeof startLine === 'number' && typeof endLine === 'number' && startLine === endLine;
   return (
     <Code className={className || ''} inline={inline}>
       {children}
@@ -115,9 +125,14 @@ const handlers: Partial<Components> = {
   code: codeTag,
 };
 
-export const MarkdownToHtml = ({ body }: { body: string }): ReactElement => {
+export const MarkdownToHtml = ({ body, mode }: { body: string; mode: modeType }): ReactElement => {
   return (
     <div className="px-4">
+      {mode === 'dev' ? (
+        <button type="button" onClick={() => copyToClipboard(body)}>
+          Copy
+        </button>
+      ) : undefined}
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={handlers}>
         {body}
       </ReactMarkdown>
@@ -125,9 +140,14 @@ export const MarkdownToHtml = ({ body }: { body: string }): ReactElement => {
   );
 };
 
-export const MarkdownToHtmlExpanded = ({ body }: { body: string }): ReactElement => {
+export const MarkdownToHtmlExpanded = ({ body, mode }: { body: string; mode: modeType }): ReactElement => {
   return (
     <div className="px-4">
+      {mode === 'dev' ? (
+        <button type="button" onClick={() => copyToClipboard(body)}>
+          Copy
+        </button>
+      ) : undefined}
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ ...handlers, h1: h3Tag, h2: h3Tag }}>
         {body}
       </ReactMarkdown>

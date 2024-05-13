@@ -28,6 +28,7 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
               <InterpreterMarkdown
                 isInExpandedDoc={isInExpandedDoc}
                 tags={docSelected.tags}
+                handlerName={docSelected.handlerName}
                 text={page.markdown || ''}
                 key={key + page.dynamicId}
               />
@@ -39,6 +40,7 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
               <InterpreterMarkdown
                 isInExpandedDoc={isInExpandedDoc}
                 tags={docSelected.tags}
+                handlerName={docSelected.handlerName}
                 text={page.markdown || ''}
                 key={key + page.dynamicId}
               />

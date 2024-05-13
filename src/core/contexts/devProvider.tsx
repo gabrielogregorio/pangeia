@@ -1,6 +1,6 @@
 import { Context, createContext, ReactElement, ReactNode, useCallback, useMemo, useState } from 'react';
 
-type modeType = 'dev' | 'product';
+export type modeType = 'dev' | 'product';
 
 const nameMode = 'mode';
 const modeName = localStorage.getItem(nameMode) || 'product';

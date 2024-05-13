@@ -2,11 +2,8 @@ import { ReactElement, useContext, useEffect, useState } from 'react';
 import { DataContext } from '@/contexts/dataProvider';
 import { SchemaType, responseApi } from '@/interfaces/api';
 import { ContextItems } from '@/widgets/groupSuits/contextItems';
-
-// melhorar isso haha
-type hierarchicalModelType = {
-  [key: string]: SchemaType[];
-};
+import { normalizeStrings } from '@/normalizers/strings';
+import { hierarchicalModelType } from '@/widgets/groupSuits/types';
 
 const sortByContexts = (data: responseApi): hierarchicalModelType => {
   const byContexts: { [key: string]: SchemaType[] } = {};
@@ -47,15 +44,46 @@ const sortByContexts = (data: responseApi): hierarchicalModelType => {
 export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
   const { data } = useContext(DataContext);
   const [dataWithContext, setDataWithContext] = useState<hierarchicalModelType>({});
+  const [dataFiltered, setDataFiltered] = useState<hierarchicalModelType>({});
 
   useEffect(() => {
     setDataWithContext(sortByContexts(data));
   }, [data]);
 
+  useEffect(() => {
+    // move to hook
+    const filterNormalized = normalizeStrings(filter);
+    const finalDataFiltered: hierarchicalModelType = {};
+
+    setDataFiltered({});
+    Object.keys(dataWithContext).map((key) => {
+      const dataLocal = dataWithContext[key];
+
+      dataLocal.forEach((groupCase) => {
+        const notExistsMatchFilterInRouterOrTexts: boolean =
+          !normalizeStrings(groupCase.title).includes(filterNormalized) &&
+          !normalizeStrings(groupCase.tags?.join(' ')).includes(filterNormalized) &&
+          !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
+
+        if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {
+          return <div key={groupCase.dynamicId} />;
+        }
+
+        if (key in finalDataFiltered) {
+          finalDataFiltered[key].push(groupCase);
+        } else {
+          finalDataFiltered[key] = [groupCase];
+        }
+      });
+    });
+
+    setDataFiltered(finalDataFiltered);
+  }, [filter, dataWithContext]);
+
   return (
     <div className="">
-      {Object.keys(dataWithContext).map((key) => {
-        return <ContextItems contextName={key} key={key} data={dataWithContext[key]} filter={filter} />;
+      {Object.keys(dataFiltered).map((key) => {
+        return <ContextItems contextName={key} key={key} data={dataWithContext[key]} />;
       })}
     </div>
   );

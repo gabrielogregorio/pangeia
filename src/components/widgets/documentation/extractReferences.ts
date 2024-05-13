@@ -14,7 +14,7 @@ export const extractReferences = (originalText: string): returnType[] => {
   textWithReferencesInNewLine.split('\n').forEach((line) => {
     const find = line.match(regex);
     if (!find) {
-      lastText += line ? '\n' + line : line;
+      lastText = lastText ? lastText + '\n ' + line : line;
       return;
     }
 

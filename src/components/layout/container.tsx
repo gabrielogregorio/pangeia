@@ -1,8 +1,24 @@
-import { ReactElement, ReactNode, useContext } from 'react';
+import { ReactElement, ReactNode, useContext, useEffect } from 'react';
 import { ThemeContext } from '@/contexts/themProvider';
 
 export const Container = ({ children }: { children: ReactNode }): ReactElement => {
   const { theme } = useContext(ThemeContext);
 
-  return <div className={`w-full overflow-hidden ${theme === 'dark' ? 'dark' : ''} `}>{children}</div>;
+  useEffect(() => {
+    const bodyTag = window.document.getElementsByTagName('body')?.[0];
+    if (!bodyTag) {
+      return () => {};
+    }
+
+    if (theme === 'dark') {
+      bodyTag.classList.remove('white');
+      bodyTag.classList.add('dark');
+      return;
+    }
+
+    bodyTag.classList.remove('dark');
+    bodyTag.classList.add('white');
+  }, [theme]);
+
+  return <div className={`w-full overflow-hidden `}>{children}</div>;
 };
