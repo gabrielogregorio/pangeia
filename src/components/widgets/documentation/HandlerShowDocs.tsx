@@ -12,11 +12,9 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
   const { mode } = useContext(ModeContext);
 
   return (
-    <div
-      className={`${isInExpandedDoc ? 'px-3 py-1' : 'px-6 py-6 pt-5'} animate-fadeInSpeed`}
-      key={docSelected.dynamicId}>
+    <div className={`${isInExpandedDoc ? 'px-3 py-1' : 'px-6 py-6 pt-5'} animate-fadeInSpeed`} key={docSelected.id}>
       {docSelected?.content?.map((page) => {
-        const key = `${docSelected.title}-${docSelected.dynamicId}`;
+        const key = `${docSelected.title}-${docSelected.id}`;
 
         if ('markdown' in page) {
           if (page.subType === 'dev' && mode === 'product') {

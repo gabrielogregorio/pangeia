@@ -31,7 +31,7 @@ export const Code = ({ inline, className, children }: CodeProps): ReactElement =
         <code
           className={tailwindMerge(
             className,
-            'dark:bg-teal-700 bg-gray-200 border-b-2 border-transparent hover:border-b-white transition-all duration-300',
+            'dark:bg-teal-700 bg-gray-200 border-b-2 border-transparent hover:border-b-white transition-all duration-300 text-lg',
           )}>
           {children}
         </code>

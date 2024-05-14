@@ -3,9 +3,9 @@ import { extractReferences } from '@/widgets/documentation/extractReferences';
 describe('extractReferences', () => {
   it('should extract references', () => {
     const string = `top
-(ref.example1.item)
+[ref.example1.item]
 down
-(ref.example2.item)
+[ref.example2.item]
 `;
 
     expect(extractReferences(string)).toStrictEqual([

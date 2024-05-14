@@ -25,7 +25,7 @@ export const InterpreterMarkdown = ({
       {mode === 'dev' ? (
         <div key="tags">
           <div className="animate-fadeInSpeed whitespace-nowrap overflow-hidden text-ellipsis px-4 my-2 text-gray-500 text-sm dark:text-gray-400">
-            tags: <span className="select-all cursor-copy">(ref.{tags?.join('.')})</span>
+            tags: <span className="select-all cursor-copy">[ref.{tags?.join('.')}]</span>
           </div>
           handler: {handlerName}
         </div>

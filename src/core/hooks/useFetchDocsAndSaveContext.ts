@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from 'react';
@@ -8,6 +9,14 @@ import axios from 'axios';
 import { extractReferences } from '@/widgets/documentation/extractReferences';
 import { findDocByTags } from '@/components/findDocByTags';
 
+const howResolveCodeWithoutLanguage = `
+Para resolver esse problema, basta especificar uma linguagem na definição do código, tipo
+
+    \`\`\`linguagemAquiComoTsJSPyBashEtc
+    seuCodigo
+    \`\`\`
+`;
+
 export const useFetchDocsAndSaveContext = () => {
   const { currentUrlOrigin } = getUrlApi();
   const { setData, setError, setIsLoading } = useContext(DataContext);
@@ -16,17 +25,51 @@ export const useFetchDocsAndSaveContext = () => {
     setIsLoading(true);
     setError('');
     try {
-      const dataApi = await axios.get<responseApi>(`${currentUrlOrigin}`);
+      const base = await axios.get<responseApi>(`${currentUrlOrigin}`);
+      const dataApi: responseApi = {
+        ...base.data,
+        hierarchy: [
+          {
+            tags: ['erro'],
+            title: '❌ Erros detectados',
+          },
+          ...base.data.hierarchy,
+        ],
+      };
 
-      const finalData = dataApi.data.schema;
+      const finalData = dataApi.schema;
 
       const errorsSchema: SchemaType['content'] = [];
+      const warningSchema: SchemaType['content'] = [];
+
       finalData.map((item) => {
         item.errors?.forEach((item2) => {
           errorsSchema.push({
             markdown: `HANDLER ${item.handlerName} - ${item2}`,
             type: 'md',
-            subType: 'dev',
+            subType: 'normal',
+            dynamicId: Math.random().toString(),
+          });
+        });
+      });
+
+      finalData.map((item) => {
+        item.warning?.forEach((item2) => {
+          const howResolve = item2.type === 'code-without-language' ? howResolveCodeWithoutLanguage : 'Sem solução';
+          warningSchema.push({
+            markdown: `HANDLER ${item.handlerName} - ${item2.file}\n\n${howResolve} problemas encontrados nesses pontos \n\n${item2.code
+              .map((lineLocal) => {
+                return lineLocal
+                  .split('\n')
+                  .map((itemInside) => {
+                    const resolved = JSON.stringify(itemInside);
+                    return '    ' + resolved.slice(1, resolved.length - 1) + '  ';
+                  })
+                  .join('\n');
+              })
+              .join('\n')}\n\n-------------`,
+            type: 'md',
+            subType: 'normal',
             dynamicId: Math.random().toString(),
           });
         });
@@ -35,18 +78,37 @@ export const useFetchDocsAndSaveContext = () => {
       if (errorsSchema.length) {
         finalData.unshift({
           originName: 'midgard-reports',
-          title: '❌ Erros no midgard',
-          dynamicId: Math.random().toString(),
+          title: 'Erros no midgard',
+          id: Math.random().toString(),
           handlerName: 'frontend-anomalias-retornadas',
           tags: ['midgard', 'erro'],
           content: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',
-              subType: 'dev',
+              subType: 'normal',
               markdown: '# Esse é um relatório de erros no midgard, o sistema que extrai as documentações dos projetos',
             },
             ...errorsSchema,
+          ],
+        });
+      }
+
+      if (warningSchema.length) {
+        finalData.unshift({
+          originName: 'midgard-warnings',
+          title: 'Alertas no midgard',
+          id: Math.random().toString(),
+          handlerName: 'frontend-anomalias-retornadas',
+          tags: ['midgard', 'erro'],
+          content: [
+            {
+              dynamicId: Math.random().toString(),
+              type: 'md',
+              subType: 'normal',
+              markdown: '# Esse é um relatório alertas do midguard',
+            },
+            ...warningSchema,
           ],
         });
       }
@@ -62,7 +124,7 @@ export const useFetchDocsAndSaveContext = () => {
                 errors.push({
                   dynamicId: Math.random().toString(),
                   type: 'md',
-                  subType: 'dev',
+                  subType: 'normal',
                   markdown: `- ❌ [${item.originName}] Erro ao analisar "${item.title}"  com tags "${item.tags?.join('.')}", a referência "${itemReference.reference}" do conteudo não foi encontrada, e está quebrada`,
                 });
               }
@@ -74,15 +136,15 @@ export const useFetchDocsAndSaveContext = () => {
       if (errors.length) {
         finalData.unshift({
           originName: 'yggdrasil-reports',
-          title: '❌ Referências quebradas',
-          dynamicId: Math.random().toString(),
+          title: 'Referências quebradas',
+          id: Math.random().toString(),
           tags: ['referencias', 'erro'],
           handlerName: 'frontend-anomalias-referencias',
           content: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',
-              subType: 'dev',
+              subType: 'normal',
               markdown:
                 '# Esse é um relatório de referências quebradas\n Esses erros são acessos como o ref.algumaCoisa mas que não foi encontrado nenhuma referência para o path usado. Isso acontece por exemplo quando em uma documentação você usa um `ref.algoQueNãoExiste`. Essa pagina irá sumir assim que todas as referências forem resolvidas',
             },
@@ -93,7 +155,7 @@ export const useFetchDocsAndSaveContext = () => {
 
       setData({
         schema: finalData,
-        hierarchy: dataApi.data.hierarchy,
+        hierarchy: dataApi.hierarchy,
       });
     } catch (error) {
       setError('Erro ao fazer requisição');

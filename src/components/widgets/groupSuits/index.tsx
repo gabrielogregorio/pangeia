@@ -66,7 +66,7 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
           !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
 
         if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {
-          return <div key={groupCase.dynamicId} />;
+          return <div key={groupCase.id} />;
         }
 
         if (key in finalDataFiltered) {
@@ -81,9 +81,14 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
   }, [filter, dataWithContext]);
 
   return (
-    <div className="">
-      {Object.keys(dataFiltered).map((key) => {
-        return <ContextItems contextName={key} key={key} data={dataWithContext[key]} />;
+    <div>
+      {data.hierarchy.map((key) => {
+        const items = dataFiltered[key.title];
+        if (items) {
+          return <ContextItems contextName={key.title} key={key.title} data={dataFiltered[key.title]} />;
+        }
+
+        return <div key={key.title}></div>;
       })}
     </div>
   );

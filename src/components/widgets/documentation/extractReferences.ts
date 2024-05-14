@@ -1,4 +1,4 @@
-const regex = /\(ref\.([\d\w\s/_\-.]{1,})\)/;
+const regex = /\[ref\.([\d\w\s/_\-.]{1,})\]/;
 
 const addNewLinesForEachReference = (text: string) => {
   return text.replace(regex, (match) => `\n${match}\n`);

@@ -7,14 +7,23 @@ type pageDocsMd = {
 
 export type contentType = pageDocsMd;
 
+type codeWithoutLanguageType = {
+  type: 'code-without-language';
+  file: string;
+  code: string[];
+};
+
+type warningType = codeWithoutLanguageType;
+
 export type SchemaType = {
-  dynamicId: string; // gerado pela api yggdrasil
-  tags?: string[]; // gerado pelo midgard
-  errors?: string[];
-  title: string; // gerado pelo midgard
+  id: string;
+  tags?: string[];
   handlerName: string;
+  errors?: string[];
+  warning?: warningType[];
+  title: string;
   originName: string;
-  content: contentType[]; // gerado pelo midgard
+  content: contentType[];
 };
 
 export type scrappersType = {

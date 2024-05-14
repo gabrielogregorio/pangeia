@@ -35,8 +35,8 @@ export const ContextItems = ({ data, contextName }: { data: SchemaType[]; contex
           {data.map((groupCase): ReactElement => {
             return (
               <InfoItem
-                key={groupCase.dynamicId}
-                isSelected={docSelected?.dynamicId === groupCase.dynamicId}
+                key={groupCase.id}
+                isSelected={docSelected?.id === groupCase.id}
                 onClick={() => {
                   setDocSelected(groupCase);
                   setMenuIsOpen(false);

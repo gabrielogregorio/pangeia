@@ -11,6 +11,7 @@ export const useSyncUrlWithList = () => {
     if (!paths?.length) {
       return;
     }
+
     const pathString = `/${paths.map((url) => encodeURIComponent(url)).join('/')}`;
 
     navigate(pathString);
