@@ -8,6 +8,7 @@ type paramsType = {
 export type modalControllerType = {
   close: () => void;
   open: () => void;
+  toggle: () => void;
   isOpen: boolean;
 };
 
@@ -31,5 +32,9 @@ export const useModalController = ({
     setIsOpen(false);
   }, []);
 
-  return { close, open, isOpen };
+  const toggle = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  return { close, open, isOpen, toggle };
 };

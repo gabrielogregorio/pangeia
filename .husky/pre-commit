@@ -28,7 +28,7 @@ echo "${Yellow}.....................INSTALL PACKAGES....................${NOCOLO
 yarn
 
 echo "\n${Yellow}......................AUDIT PACKAGES.....................${NOCOLOR}\n"
-yarn audit
+yarn npm audit --environment production
 
 echo "\n${Yellow}...................ESLINT CHECKING.......................${NOCOLOR}"
 yarn lint

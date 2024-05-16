@@ -3,8 +3,8 @@ import { ThemeContext } from '@/contexts/themProvider';
 import { IconDark, IconLight } from '@/icons/index';
 import { ModeContext } from '@/contexts/devProvider';
 import { FaMarkdown } from 'react-icons/fa6';
-import { Modal } from '@/widgets/modal';
 import { useModalController } from '@/hooks/useModalController';
+import { ModalMarkdown } from '@/widgets/modalMarkdown';
 
 export const Actions = (): ReactElement => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -16,7 +16,7 @@ export const Actions = (): ReactElement => {
 
   return (
     <div className="flex gap-2">
-      <Modal controller={controller} />
+      <ModalMarkdown controller={controller} />
       <div>
         <button
           type="button"

@@ -81,6 +81,7 @@ module.exports = {
           'blockquote',
           'axios',
           'Resize',
+          'Textarea',
           'enum',
           'jsx',
           'pathname',

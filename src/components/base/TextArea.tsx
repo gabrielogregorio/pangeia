@@ -1,4 +1,4 @@
-import { Description, Field, Label, Textarea } from '@headlessui/react';
+import { Field, Textarea } from '@headlessui/react';
 import { ReactElement } from 'react';
 import { Control, FieldValues, Path, PathValue, useController } from 'react-hook-form';
 
@@ -6,6 +6,8 @@ interface IGenericInput<T extends FieldValues> {
   name: Path<T>;
   control: Control<T, Path<T>>;
   rows?: number;
+  disabled?: boolean;
+  placeholder?: string;
   defaultValue?: PathValue<T, Path<T>>;
 }
 
@@ -13,7 +15,9 @@ const DEFAULT_ROWS = 3;
 
 export const TextArea = <T extends FieldValues>({
   name,
+  disabled = false,
   control,
+  placeholder = '',
   rows = DEFAULT_ROWS,
   defaultValue = undefined,
 }: IGenericInput<T>): ReactElement => {
@@ -32,16 +36,14 @@ export const TextArea = <T extends FieldValues>({
   };
 
   return (
-    <div className="w-ful px-4">
+    <div className="w-ful">
       <Field>
-        <Label className="text-sm/6 font-medium text-white">Description</Label>
-        <Description className="text-sm/6 text-white/50">This will be shown under the product title.</Description>
         <Textarea
           id={name}
           name={name}
-          required={false}
+          disabled={disabled}
           autoComplete=""
-          placeholder="placeholder"
+          placeholder={placeholder}
           title="title on over mouse"
           value={value}
           aria-label="abc"

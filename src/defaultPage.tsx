@@ -5,6 +5,7 @@ export const DefaultPage = (): ReactElement => {
   return (
     <div>
       <MarkdownToHtml
+        mode="dev"
         body={`
 # Dicas para formatar seu HTML   
 

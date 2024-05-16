@@ -1,5 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect } from 'react';
 import { ThemeContext } from '@/contexts/themProvider';
+import { FloatingActionButtons } from '@/components/FloatingActionButtons';
 
 export const Container = ({ children }: { children: ReactNode }): ReactElement => {
   const { theme } = useContext(ThemeContext);
@@ -20,5 +21,9 @@ export const Container = ({ children }: { children: ReactNode }): ReactElement =
     bodyTag.classList.add('white');
   }, [theme]);
 
-  return <div className={`w-full overflow-hidden `}>{children}</div>;
+  return (
+    <div className={`w-full overflow-hidden `}>
+      <FloatingActionButtons /> {children}
+    </div>
+  );
 };

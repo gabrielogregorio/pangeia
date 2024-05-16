@@ -20,6 +20,7 @@
       "@/components/*": ["src/components/*"],
       "@/contexts/*": ["src/core/contexts/*"],
       "@/helpers/*": ["src/core/helpers/*"],
+      "@/features/*": ["src/features/*"],
       "@/hooks/*": ["src/core/hooks/*"],
       "@/interfaces/*": ["src/core/interfaces/*"],
       "@/normalizers/*": ["src/core/normalizers/*"],

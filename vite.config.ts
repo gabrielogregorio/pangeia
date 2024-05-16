@@ -10,12 +10,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // FIXME: some automatic solution
       '@/layout': resolve(__dirname, './src/components/layout'),
       '@/widgets': resolve(__dirname, './src/components/widgets'),
       '@/components': resolve(__dirname, './src/components'),
       '@/contexts': resolve(__dirname, './src/core/contexts'),
       '@/helpers': resolve(__dirname, './src/core/helpers'),
+      '@/features': resolve(__dirname, './src/features'),
       '@/hooks': resolve(__dirname, './src/core/hooks'),
       '@/interfaces': resolve(__dirname, './src/core/interfaces'),
       '@/normalizers': resolve(__dirname, './src/core/normalizers'),
