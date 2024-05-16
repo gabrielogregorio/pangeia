@@ -33,11 +33,11 @@ yarn npm audit --environment production
 echo "\n${Yellow}...................ESLINT CHECKING.......................${NOCOLOR}"
 yarn lint
 
+echo "\n${Yellow}...............UNIT TEST....................${NOCOLOR}"
+yarn test:coverage
+
 echo "\n${Yellow}.....................BUILDING APP........................${NOCOLOR}"
 yarn build
-
-echo "\n${Yellow}...............UNIT TEST....................${NOCOLOR}"
-yarn test
 
 echo "\n${Cyan}=========================================================${NOCOLOR}"
 echo "${Cyan}                END PRE-COMMIT                           ${NOCOLOR}"

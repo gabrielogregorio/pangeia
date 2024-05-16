@@ -7,7 +7,7 @@
   "scripts": {
     "deploy": "gh-pages -d build",
     "dev": "vite --port 5173 --host",
-    "build": "yarn clear && tsc && vite build && node replace.js",
+    "build": "yarn clear && tsc && vite build && node replace.cjs",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage --watch=false",
@@ -34,6 +34,7 @@
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-c8": "^0.33.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.5.2",
     "autoprefixer": "^10.4.19",
     "cz-conventional-changelog": "^3.3.0",

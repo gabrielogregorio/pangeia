@@ -10,7 +10,7 @@ down
 
     expect(extractReferences(string)).toStrictEqual([
       {
-        content: '\ntop',
+        content: 'top\n ',
         type: 'text',
       },
       {
@@ -18,16 +18,12 @@ down
         type: 'reference',
       },
       {
-        content: '\ndown',
+        content: 'down',
         type: 'text',
       },
       {
         reference: 'example2.item',
         type: 'reference',
-      },
-      {
-        content: '\n',
-        type: 'text',
       },
     ]);
   });

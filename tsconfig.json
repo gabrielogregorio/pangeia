@@ -43,5 +43,6 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
+  "exclude": ["./replace.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
