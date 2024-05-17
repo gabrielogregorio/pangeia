@@ -1,33 +1,27 @@
-import { Context, createContext, ReactElement, ReactNode, useCallback, useMemo, useState } from 'react';
-
-export type modeType = 'dev' | 'product';
+import { ModeTypeEnum } from '@/contexts/types';
+import { Context, createContext, ReactElement, ReactNode, useMemo, useState } from 'react';
 
 const nameMode = 'mode';
-const modeName = localStorage.getItem(nameMode) || 'product';
+const modeName = (localStorage.getItem(nameMode) as ModeTypeEnum) || ModeTypeEnum.product;
 
-const initialStateMode: modeType = modeName === 'product' ? 'product' : 'dev';
+const initialStateMode: ModeTypeEnum = modeName;
 
 type modeContextType = {
-  mode: modeType;
-  toggleMode: () => void;
+  mode: ModeTypeEnum;
+  updateTo: (modeLocal: ModeTypeEnum) => void;
 };
 
 export const ModeContext: Context<modeContextType> = createContext({} as modeContextType);
 
 export const ModeProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const [mode, setMode] = useState<modeType>(initialStateMode);
+  const [mode, setMode] = useState<ModeTypeEnum>(initialStateMode);
 
-  const toggleMode = useCallback((): void => {
-    if (mode === 'product') {
-      localStorage.setItem(nameMode, 'dev');
-      setMode('dev');
-    } else {
-      localStorage.setItem(nameMode, 'product');
-      setMode('product');
-    }
-  }, [mode]);
+  const updateTo = (modeLocal: ModeTypeEnum) => {
+    localStorage.setItem(nameMode, modeLocal);
+    setMode(modeLocal);
+  };
 
-  const value: modeContextType = useMemo(() => ({ mode, toggleMode }), [mode, toggleMode]);
+  const value: modeContextType = useMemo(() => ({ mode, updateTo }), [mode]);
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
 };

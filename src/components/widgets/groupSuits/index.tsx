@@ -88,7 +88,7 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
           return <ContextItems contextName={key.title} key={key.title} data={dataFiltered[key.title]} />;
         }
 
-        return <div key={key.title}></div>;
+        return <div key={key.title}>o que é isso?</div>;
       })}
     </div>
   );

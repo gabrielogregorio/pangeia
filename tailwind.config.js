@@ -21,8 +21,18 @@ module.exports = {
         },
       }),
       colors: {
+        primary: {
+          50: 'var(--primary-color-50)',
+          100: 'var(--primary-color-100)',
+          200: 'var(--primary-color-200)',
+          300: 'var(--primary-color-300)',
+          400: 'var(--primary-color-400)',
+          500: 'var(--primary-color-500)',
+          600: 'var(--primary-color-600)',
+          700: 'var(--primary-color-700)',
+        },
         white: '#ffffff',
-        'white-smooth': '#e8e8e8',
+        'white-smooth': '#fbfbfb', //
         dark: '#1B2430',
         'dark-max': '#181e29',
       },

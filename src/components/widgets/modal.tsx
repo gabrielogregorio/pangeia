@@ -15,7 +15,7 @@ export const Modal = ({ controller, className = undefined, children }: Props) =>
     <>
       <Transition appear show={controller.isOpen}>
         <Dialog as="div" className="relative z-30 focus:outline-none" onClose={controller.close}>
-          <div className="fixed inset-0 z-40 w-screen h-screen overflow-y-auto backdrop-blur-md flex items-center justify-center">
+          <div className="fixed inset-0 z-40 w-screen h-screen overflow-y-auto backdrop-blur-md  bg-dark/70  dark:bg-dark/5 flex items-center justify-center">
             <div className="flex items-center justify-center w-full">
               <TransitionChild
                 enter="ease-out duration-300"

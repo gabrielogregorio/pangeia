@@ -38,7 +38,7 @@ export const Comment = ({ id, message, getByPostId, postId }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-start group ">
-        <div className="min-h-[25px] min-w-[25px] rounded-full border-2 border-white flex items-center justify-center">
+        <div className="min-h-[25px] min-w-[25px] rounded-full border-2 border-white-smooth flex items-center justify-center">
           <PiFinnTheHumanFill />
         </div>
 
@@ -53,7 +53,7 @@ export const Comment = ({ id, message, getByPostId, postId }: Props) => {
                 <button
                   type="button"
                   aria-label="Cancelar"
-                  className="hover:bg-teal-600 px-2 py-1 rounded-md"
+                  className="hover:bg-primary-200 dark:hover:bg-primary-600 px-2 py-1 rounded-md"
                   onClick={() => setIsInEditing(false)}>
                   <IoMdClose />
                 </button>
@@ -61,7 +61,7 @@ export const Comment = ({ id, message, getByPostId, postId }: Props) => {
                 <button
                   type="button"
                   aria-label="Salvar"
-                  className="hover:bg-teal-600 px-2 py-1 rounded-md"
+                  className="hover:bg-primary-200 dark:hover:bg-primary-600 px-2 py-1 rounded-md"
                   onClick={() => {
                     setIsInEditing(false);
                     updateById(id, { postId, message: commentUpdated }, () => getByPostId(postId));
@@ -79,16 +79,16 @@ export const Comment = ({ id, message, getByPostId, postId }: Props) => {
               <button
                 type="button"
                 aria-label="Abrir opções"
-                className="h-[100%] min-w-[30px] flex items-center justify-center min-h-[40px] hover:bg-teal-500"
+                className="h-[100%] min-w-[30px] flex items-center justify-center min-h-[40px] hover:bg-primary-200 dark:hover:bg-primary-500 rounded-md"
                 onClick={() => setMoreOptionsIsOpen((prev) => !prev)}>
                 <SlOptionsVertical />
               </button>
 
               {moreOptionsIsOpen ? (
-                <div className="absolute bg-dark-max min-w-[230px] text-base right-0 top-10 z-40 shadow-2xl border border-dark-max rounded-lg shadow-dark-max py-3">
+                <div className="absolute bg-white-smooth dark:bg-dark-max min-w-[230px] text-base right-0 top-10 z-40 shadow-2xl border border-dark-max rounded-lg shadow-dark-max py-3">
                   <button
                     type="button"
-                    className="flex items-center gap-3 py-3 px-3 w-full hover:bg-teal-500"
+                    className="flex items-center gap-3 py-3 px-3 w-full hover:bg-primary-200 dark:hover:bg-primary-500"
                     onClick={() => {
                       setIsInEditing(true);
                       setMoreOptionsIsOpen(false);
@@ -102,7 +102,7 @@ export const Comment = ({ id, message, getByPostId, postId }: Props) => {
 
                   <button
                     type="button"
-                    className="flex items-center gap-3 py-3 px-3 w-full hover:bg-red-500"
+                    className="flex items-center gap-3 py-3 px-3 w-full hover:bg-red-200 dark:hover:bg-red-500"
                     onClick={() => {
                       deleteById(id, () => getByPostId(postId));
                     }}>

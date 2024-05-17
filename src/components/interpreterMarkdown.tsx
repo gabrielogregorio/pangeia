@@ -3,6 +3,7 @@ import { MarkdownToHtml, MarkdownToHtmlExpanded } from '@/shared/ReactMarkdown';
 import { extractReferences } from '@/widgets/documentation/extractReferences';
 import { ExpandedDocLinked } from '@/components/ExpandedDocLinked';
 import { ModeContext } from '@/contexts/devProvider';
+import { ModeTypeEnum } from '@/contexts/types';
 
 type InterpreterMarkdownInterface = {
   text: string;
@@ -22,7 +23,7 @@ export const InterpreterMarkdown = ({
 
   return (
     <div>
-      {mode === 'dev' ? (
+      {mode === ModeTypeEnum.debug ? (
         <div key="tags">
           <div className="animate-fadeInSpeed whitespace-nowrap overflow-hidden text-ellipsis px-4 my-2 text-gray-500 text-sm dark:text-gray-400">
             tags: <span className="select-all cursor-copy">[ref.{tags?.join('.')}]</span>

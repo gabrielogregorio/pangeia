@@ -20,7 +20,7 @@ const App = (): ReactElement => {
 
       <div
         style={{ height: 'calc(100vh - 3.5rem)' }}
-        className="grid grid-cols-12 w-full overflow-hidden bg-white dark:bg-dark dark:text-white relative">
+        className="grid grid-cols-12 w-full overflow-hidden bg-white-smooth dark:bg-dark dark:text-white-smooth relative">
         <Aside />
         <Main>{url.length ? <Documentation key="doctest" /> : <DefaultPage />}</Main>
       </div>

@@ -52,7 +52,7 @@ export const TextArea = <T extends FieldValues>({
           onBlur={() => console.log('blur')}
           ref={ref}
           className={
-            'mt-3 block w-full resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25'
+            'mt-3 block w-full resize-none rounded-lg border-none bg-dark/10 dark:bg-white-smooth/5 py-1.5 px-3 text-sm/6 text-dark/80 dark:text-white-smooth focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white-smooth/25'
           }
           rows={rows}
         />

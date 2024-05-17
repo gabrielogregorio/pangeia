@@ -26,7 +26,7 @@ export const ExpandedDocLinked = ({ reference }: { reference: string }) => {
 
   return (
     <div className="px-4">
-      <div className="bg-gray-200 dark:bg-gray-700">
+      <div className="bg-gray-200 dark:bg-gray-700 px-2">
         <button
           type="button"
           onClick={() => setReferenceIsExpanded((prev) => !prev)}

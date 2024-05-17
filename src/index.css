@@ -10,6 +10,18 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --primary-color-50: #f0f9ff;
+  --primary-color-100: #e0f2fe;
+  --primary-color-200: #bae6fd;
+  --primary-color-300: #7dd3fc;
+  --primary-color-400: #38bdf8;
+  --primary-color-500: #0ea5e9;
+  --primary-color-600: #0284c7;
+  --primary-color-700: #0369a1;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;

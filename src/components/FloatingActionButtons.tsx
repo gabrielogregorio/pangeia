@@ -5,12 +5,16 @@ import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { useModalController } from '@/hooks/useModalController';
 import { useComments } from '@/features/useComments';
 import { ModalComments } from '@/features/index';
+import { ModalMarkdown } from '@/widgets/modalMarkdown';
+import { FaMarkdown } from 'react-icons/fa6';
 
 export const FloatingActionButtons = () => {
   const { docSelected } = useContext(DocSelectedContext);
   const controller = useModalController();
   const { getByPostId, comments, createComment, isLoading, error } = useComments();
   const postId = docSelected?.id;
+
+  const controllerMarkdown = useModalController();
 
   useEffect(() => {
     if (postId) {
@@ -32,7 +36,11 @@ export const FloatingActionButtons = () => {
         />
       ) : undefined}
 
-      <aside aria-label="Menu atalhos" className="fixed z-30 right-2 bottom-[6rem] flex items-center justify-center">
+      <ModalMarkdown controller={controllerMarkdown} />
+
+      <aside
+        aria-label="Menu atalhos"
+        className="fixed z-30 right-2 bottom-[2rem] flex items-center justify-center flex-col gap-4">
         {postId ? (
           <div className="relative">
             <LateralButton
@@ -40,16 +48,27 @@ export const FloatingActionButtons = () => {
                 controller.toggle();
               }}
               ariaLabel="Fazer comentário"
-              variant={'cyan'}
+              variant={'primary'}
               icon={<MdMessage className="text-2xl" />}
             />
             {comments.length ? (
-              <div className="absolute text-white text-sm bg-cyan-800 rounded-full w-4 h-4 flex items-center justify-center right-2 bottom-0">
+              <div className="absolute text-white-smooth text-sm bg-primary-700 rounded-full w-4 h-4 flex items-center justify-center right-2 bottom-0">
                 {comments.length}
               </div>
             ) : undefined}
           </div>
         ) : undefined}
+
+        <div className="relative">
+          <LateralButton
+            action={() => {
+              controllerMarkdown.toggle();
+            }}
+            ariaLabel="Fazer comentário"
+            variant={'primary'}
+            icon={<FaMarkdown className="text-2xl" />}
+          />
+        </div>
       </aside>
     </div>
   );

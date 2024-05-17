@@ -8,7 +8,7 @@ export const Status = ({ isLoading, error }: StatusProps) => {
     return (
       <div
         role="status"
-        className="my-8 animate-spin border-4 border-transparent border-t-[#0e7490] rounded-full w-16 h-16">
+        className="my-8 animate-spin border-4 border-transparent border-t-primary-500 rounded-full w-16 h-16">
         <span className="sr-only">Loading...</span>
       </div>
     );
@@ -18,7 +18,7 @@ export const Status = ({ isLoading, error }: StatusProps) => {
     return (
       <div
         role="alert"
-        className="my-8 w-full text-center bg-red-400 px-6 py-4 text-base text-white animate-fadeIn font-sans rounded-md shadow-md">
+        className="my-8 w-full text-center bg-red-400 px-6 py-4 text-base text-white-smooth animate-fadeIn font-sans rounded-md shadow-md">
         {error}
       </div>
     );

@@ -29,7 +29,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
   const buttonSendIsDisabled = Boolean(message) === false;
 
   return (
-    <div className="shadow-lg shadow-dark text-white bg-dark w-full rounded-lg  ">
+    <div className="shadow-lg shadow-dark text-dark/80 dark:text-white-smooth bg-white-smooth dark:bg-dark w-full rounded-lg max-h-[80vh] overflow-auto">
       <div className="px-3 py-4">Comentários</div>
 
       <div className="border-t border-gray-600 px-3 py-4 flex flex-col gap-4">
@@ -47,7 +47,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
       </div>
 
       <div className="flex items-center justify-start px-3 ">
-        <div className="min-h-[25px] min-w-[25px] rounded-full border-2 border-white flex items-center justify-center">
+        <div className="min-h-[25px] min-w-[25px] rounded-full border-2 border-dark/80 dark:border-white-smooth flex items-center justify-center">
           <PiFinnTheHumanFill />
         </div>
 
@@ -60,7 +60,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
         <button
           type="button"
           aria-label="Cancelar"
-          className=" disabled:hover:bg-dark hover:bg-teal-600 px-2 py-1 rounded-md"
+          className=" disabled:hover:bg-transparent hover:bg-primary-300 dark:hover:bg-primary-600 px-2 py-1 rounded-md"
           disabled={buttonSendIsDisabled}
           onClick={() =>
             createComment(
@@ -74,7 +74,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
               },
             )
           }>
-          <IoSend className={buttonSendIsDisabled ? 'text-gray-600' : ''} />
+          <IoSend className={buttonSendIsDisabled ? 'text-primary-200 dark:text-gray-600' : ''} />
         </button>
       </div>
 

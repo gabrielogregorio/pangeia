@@ -2,6 +2,7 @@ import { ReactElement, useContext } from 'react';
 import { InterpreterMarkdown } from '@/components/interpreterMarkdown';
 import { SchemaType } from '@/interfaces/api';
 import { ModeContext } from '@/contexts/devProvider';
+import { ModeTypeEnum } from '@/contexts/types';
 
 type Props = {
   docSelected: SchemaType;
@@ -33,7 +34,7 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
             );
           }
 
-          if (page.type === 'tag' && mode === 'dev') {
+          if (page.type === 'tag' && (mode === ModeTypeEnum.dev || mode === ModeTypeEnum.debug)) {
             return (
               <InterpreterMarkdown
                 isInExpandedDoc={isInExpandedDoc}
@@ -45,7 +46,7 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
             );
           }
 
-          if (page.type === 'tag' && mode === 'product') {
+          if (page.type === 'tag' && mode === ModeTypeEnum.product) {
             return <div key={page.dynamicId}></div>;
           }
 

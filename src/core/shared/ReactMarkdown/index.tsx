@@ -6,7 +6,8 @@ import { Code } from './code';
 import { Blockquote } from './blockquote';
 import { JsxRuntimeComponents } from 'node_modules/react-markdown/lib';
 import { copyToClipboard } from '@/helpers/copyToClipboard';
-import { modeType } from '@/contexts/devProvider';
+import { ModeTypeEnum } from '@/contexts/types';
+import { FaCopy } from 'react-icons/fa6';
 
 type Components = Partial<JsxRuntimeComponents>;
 
@@ -72,7 +73,7 @@ const strongTag = ({ children }: Partial<partialChildrenType>): ReactElement => 
 );
 
 const aTag = ({ href, children }: { href?: string; children?: ReactNode }): ReactElement => (
-  <a target="_blank" rel="noreferrer" href={href} className="text-blue-500 dark:text-blue-400 hover:underline">
+  <a target="_blank" rel="noreferrer" href={href} className="text-primary-500 dark:text-primary-300 hover:underline">
     {children}
   </a>
 );
@@ -125,12 +126,16 @@ const handlers: Partial<Components> = {
   code: codeTag,
 };
 
-export const MarkdownToHtml = ({ body, mode }: { body: string; mode: modeType }): ReactElement => {
+export const MarkdownToHtml = ({ body, mode }: { body: string; mode: ModeTypeEnum }): ReactElement => {
   return (
     <div className="px-4">
-      {mode === 'dev' ? (
-        <button type="button" onClick={() => copyToClipboard(body)}>
-          Copy
+      {mode === ModeTypeEnum.debug ? (
+        <button
+          type="button"
+          onClick={() => copyToClipboard(body)}
+          aria-label="Copiar Conteudo"
+          className="bg-primary-500 dark:bg-primary-600 text-white-smooth px-3 py-2 rounded-md">
+          <FaCopy />
         </button>
       ) : undefined}
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={handlers}>
@@ -140,12 +145,16 @@ export const MarkdownToHtml = ({ body, mode }: { body: string; mode: modeType })
   );
 };
 
-export const MarkdownToHtmlExpanded = ({ body, mode }: { body: string; mode: modeType }): ReactElement => {
+export const MarkdownToHtmlExpanded = ({ body, mode }: { body: string; mode: ModeTypeEnum }): ReactElement => {
   return (
     <div className="px-4">
-      {mode === 'dev' ? (
-        <button type="button" onClick={() => copyToClipboard(body)}>
-          Copy
+      {mode === ModeTypeEnum.debug ? (
+        <button
+          type="button"
+          onClick={() => copyToClipboard(body)}
+          aria-label="Copiar Conteudo"
+          className="bg-primary-500 dark:bg-primary-600 text-white-smooth px-3 py-2 rounded-md">
+          <FaCopy />
         </button>
       ) : undefined}
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ ...handlers, h1: h3Tag, h2: h3Tag }}>
