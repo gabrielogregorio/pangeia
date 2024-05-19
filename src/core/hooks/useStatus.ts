@@ -5,7 +5,7 @@ export const useStatus = () => {
   const [error, setErrorMessage] = useState<string>('');
 
   const startFetch = () => {
-    setIsLoading(false);
+    setIsLoading(true);
     setErrorMessage('');
   };
 

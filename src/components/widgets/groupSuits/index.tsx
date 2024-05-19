@@ -63,7 +63,7 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
         const notExistsMatchFilterInRouterOrTexts: boolean =
           !normalizeStrings(groupCase.title).includes(filterNormalized) &&
           !normalizeStrings(groupCase.tags?.join(' ')).includes(filterNormalized) &&
-          !normalizeStrings(JSON.stringify(groupCase.content)).includes(filterNormalized);
+          !normalizeStrings(JSON.stringify(groupCase.blocks)).includes(filterNormalized);
 
         if (filter !== '' && notExistsMatchFilterInRouterOrTexts) {
           return <div key={groupCase.id} />;
@@ -88,7 +88,7 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
           return <ContextItems contextName={key.title} key={key.title} data={dataFiltered[key.title]} />;
         }
 
-        return <div key={key.title}>o que é isso?</div>;
+        return <div key={key.title}>Hiearquia desconhecida - {JSON.stringify(key)}</div>;
       })}
     </div>
   );

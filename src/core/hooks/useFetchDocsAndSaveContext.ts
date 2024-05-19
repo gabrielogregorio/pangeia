@@ -39,8 +39,8 @@ export const useFetchDocsAndSaveContext = () => {
 
       const finalData = dataApi.schema;
 
-      const errorsSchema: SchemaType['content'] = [];
-      const warningSchema: SchemaType['content'] = [];
+      const errorsSchema: SchemaType['blocks'] = [];
+      const warningSchema: SchemaType['blocks'] = [];
 
       finalData.map((item) => {
         item.errors?.forEach((item2) => {
@@ -82,7 +82,7 @@ export const useFetchDocsAndSaveContext = () => {
           id: Math.random().toString(),
           handlerName: 'frontend-anomalias-retornadas',
           tags: ['midgard', 'erro'],
-          content: [
+          blocks: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',
@@ -101,7 +101,7 @@ export const useFetchDocsAndSaveContext = () => {
           id: Math.random().toString(),
           handlerName: 'frontend-anomalias-retornadas',
           tags: ['midgard', 'erro'],
-          content: [
+          blocks: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',
@@ -113,10 +113,10 @@ export const useFetchDocsAndSaveContext = () => {
         });
       }
 
-      const errors: SchemaType['content'] = [];
+      const errors: SchemaType['blocks'] = [];
       finalData.forEach((item) => {
-        item.content.forEach((itemLocal) => {
-          const references = extractReferences(itemLocal.markdown || '');
+        item.blocks.forEach((itemLocal) => {
+          const references = extractReferences('markdown' in itemLocal ? itemLocal.markdown || '' : '');
           references.forEach((itemReference) => {
             if (itemReference.type === 'reference') {
               const docByTagFounded = findDocByTags(finalData, itemReference.reference.split('.'));
@@ -140,7 +140,7 @@ export const useFetchDocsAndSaveContext = () => {
           id: Math.random().toString(),
           tags: ['referencias', 'erro'],
           handlerName: 'frontend-anomalias-referencias',
-          content: [
+          blocks: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',

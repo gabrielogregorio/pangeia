@@ -4,8 +4,18 @@ type pageDocsMd = {
   subType: 'dev' | 'normal';
   type: 'md' | 'tag';
 };
+export type handlerRequestType = {
+  type: 'request';
+  dynamicId: string;
+  method: string;
+  headers: {
+    [key: string]: string;
+  };
+  payload: string;
+  url: string;
+};
 
-export type contentType = pageDocsMd;
+export type blocksType = pageDocsMd | handlerRequestType;
 
 type codeWithoutLanguageType = {
   type: 'code-without-language';
@@ -13,7 +23,13 @@ type codeWithoutLanguageType = {
   code: string[];
 };
 
-type warningType = codeWithoutLanguageType;
+export type requestJsonWithoutHeader = {
+  type: 'request-json-without-header';
+  file: string;
+  code: string[];
+};
+
+type warningType = codeWithoutLanguageType | requestJsonWithoutHeader;
 
 export type SchemaType = {
   id: string;
@@ -23,7 +39,7 @@ export type SchemaType = {
   warning?: warningType[];
   title: string;
   originName: string;
-  content: contentType[];
+  blocks: blocksType[];
 };
 
 export type scrappersType = {

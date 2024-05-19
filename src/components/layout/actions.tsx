@@ -6,8 +6,9 @@ import { ModeContext } from '@/contexts/devProvider';
 import { useRegisterMode } from '@/layout/useToogleMode';
 import { DropDown, dataDropDownType } from '@/components/base/dropdown';
 import { ModeTypeEnum } from '@/contexts/types';
-import { ColorsContext, colorKeys, colors } from '@/contexts/colorsProvider';
+import { ColorsContext, colorKeys } from '@/contexts/colorsProvider';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { colors } from '@/contexts/colors';
 
 const dataMode: dataDropDownType[] = [
   { value: ModeTypeEnum.product, children: '⭐ Modo Padrão' },
@@ -35,6 +36,7 @@ export const Actions = (): ReactElement => {
   const modeUpdated = watch('mode');
   useEffect(() => {
     updateTo(modeUpdated);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modeUpdated]);
 
   return (
