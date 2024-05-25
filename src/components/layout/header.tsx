@@ -22,7 +22,7 @@ export const Header = (): ReactElement => {
 
           <a href="/" className="mr-2 flex items-center justify-center">
             <MainLogo />
-            <div id="main-title">yggdrasil</div>
+            <div id="main-title">Pangeia 0.2.0</div>
           </a>
         </div>
 

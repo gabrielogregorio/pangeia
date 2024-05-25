@@ -77,17 +77,17 @@ export const useFetchDocsAndSaveContext = () => {
 
       if (errorsSchema.length) {
         finalData.unshift({
-          originName: 'midgard-reports',
-          title: 'Erros no midgard',
+          originName: 'pangeia-reports',
+          title: 'Erros no pangeia',
           id: Math.random().toString(),
           handlerName: 'frontend-anomalias-retornadas',
-          tags: ['midgard', 'erro'],
+          tags: ['pangeia', 'erro'],
           blocks: [
             {
               dynamicId: Math.random().toString(),
               type: 'md',
               subType: 'normal',
-              markdown: '# Esse é um relatório de erros no midgard, o sistema que extrai as documentações dos projetos',
+              markdown: '# Esse é um relatório de erros no pangeia, o sistema que extrai as documentações dos projetos',
             },
             ...errorsSchema,
           ],
@@ -96,11 +96,11 @@ export const useFetchDocsAndSaveContext = () => {
 
       if (warningSchema.length) {
         finalData.unshift({
-          originName: 'midgard-warnings',
-          title: 'Alertas no midgard',
+          originName: 'pangeia-warnings',
+          title: 'Alertas no pangeia',
           id: Math.random().toString(),
           handlerName: 'frontend-anomalias-retornadas',
-          tags: ['midgard', 'erro'],
+          tags: ['pangeia', 'erro'],
           blocks: [
             {
               dynamicId: Math.random().toString(),
@@ -135,7 +135,7 @@ export const useFetchDocsAndSaveContext = () => {
 
       if (errors.length) {
         finalData.unshift({
-          originName: 'yggdrasil-reports',
+          originName: 'pangeia-reports',
           title: 'Referências quebradas',
           id: Math.random().toString(),
           tags: ['referencias', 'erro'],

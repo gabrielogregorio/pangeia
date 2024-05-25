@@ -61,7 +61,7 @@ export const HandlerShowDocs = ({ docSelected, isInExpandedDoc = false }: Props)
           return <div key={page.dynamicId}></div>;
         }
 
-        if (page.type === 'request') {
+        if (page.type === 'openApi3') {
           return (
             <div key={page.dynamicId}>
               <RequestHandler contentRequest={page} />

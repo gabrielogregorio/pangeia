@@ -1,30 +1,42 @@
+export type Context = {
+  file: string;
+};
+
 type pageDocsMd = {
-  markdown?: string;
-  dynamicId: string;
-  subType: 'dev' | 'normal';
   type: 'md' | 'tag';
-};
-export type handlerRequestType = {
-  type: 'request';
   dynamicId: string;
-  method: string;
-  headers: {
-    [key: string]: string;
-  };
-  payload: string;
-  url: string;
+  markdown?: string;
+  subType: 'dev' | 'normal';
 };
 
-export type blocksType = pageDocsMd | handlerRequestType;
+export type swaggerRequestType = {
+  type: 'openApi3';
+  dynamicId: string;
+  summary: string;
+  description: string;
+  method: string;
+  url: string;
+  sceneries: {
+    summary: string;
+    description: string;
+    params: { [key: string]: string };
+    payload: unknown;
+    headers: {
+      [key: string]: string;
+    };
+    response: { status: number; example: unknown };
+  }[];
+};
+export type blocksType = pageDocsMd | swaggerRequestType;
 
-type codeWithoutLanguageType = {
-  type: 'code-without-language';
+export type requestJsonWithoutHeader = {
+  type: 'request-json-without-header';
   file: string;
   code: string[];
 };
 
-export type requestJsonWithoutHeader = {
-  type: 'request-json-without-header';
+export type codeWithoutLanguageType = {
+  type: 'code-without-language';
   file: string;
   code: string[];
 };
@@ -58,5 +70,4 @@ export type configBase = {
   scrappers: scrappersType[];
   hierarchy: hierarchyType[];
 };
-
 export type responseApi = { schema: SchemaType[]; hierarchy: hierarchyType[] };

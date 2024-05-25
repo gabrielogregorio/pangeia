@@ -86,7 +86,7 @@ module.exports = {
           'jsx',
           'pathname',
           'testid',
-          'yggdrasil',
+          'pangeia',
           'urls',
           'orchestrator',
           'globals',

@@ -1,7 +1,8 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable max-lines */
 /* eslint-disable max-lines-per-function */
 import { ReactElement, useEffect, useState } from 'react';
-import { handlerRequestType } from '@/interfaces/api';
+import { swaggerRequestType } from '@/interfaces/api';
 import { IRequestFields, useRegisterRequestHandler } from '@/widgets/documentation/useRegisterRequestHandler';
 import { Input } from '@/components/base/input';
 import { DropDown, dataDropDownType } from '@/components/base/dropdown';
@@ -14,6 +15,11 @@ import { useStatus } from '@/hooks/useStatus';
 import { MarkdownToHtml } from '@/shared/ReactMarkdown';
 import { ModeTypeEnum } from '@/contexts/types';
 import { Status } from '@/components/base/Status';
+import { InterpreterMarkdown } from '@/components/interpreterMarkdown';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { PiBracketsCurlyThin } from 'react-icons/pi';
+import { messageByStatusCode } from '@/widgets/documentation/messageByStatusCode';
+import { MenuScenaries } from '@/widgets/documentation/MenuScenaries';
 
 const dataMethod: dataDropDownType[] = [
   { value: 'GET', children: 'GET' },
@@ -28,7 +34,7 @@ const dataMethod: dataDropDownType[] = [
 ];
 
 type Props = {
-  contentRequest: handlerRequestType;
+  contentRequest: swaggerRequestType;
 };
 
 const DEFAULT_ROWS_TEXT_AREA = 3;
@@ -45,7 +51,13 @@ const initialState = {
 
 const defaultStatusError = 'Erro, sem status (pode ser CORS ou problemas similares, verifique o dev tools)';
 
-export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
+const RequestHandlerChildren = ({
+  contentRequest,
+  scenerie,
+}: {
+  contentRequest: Exclude<swaggerRequestType, 'sceneries'>;
+  scenerie: swaggerRequestType['sceneries'][0];
+}): ReactElement => {
   const { control, setValue, watch } = useRegisterRequestHandler();
   const rows = watch('payload')?.split('\n')?.length || DEFAULT_ROWS_TEXT_AREA;
   const { isLoading, setIsLoading, startFetch } = useStatus();
@@ -56,8 +68,11 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
   const reset = () => {
     setValue('url', contentRequest.url);
     setValue('method', contentRequest.method);
-    setValue('payload', contentRequest.payload);
-    setValue('headers', objectToStringOrEmptyObject(contentRequest.headers));
+    setValue(
+      'payload',
+      typeof scenerie.payload === 'string' ? scenerie.payload : JSON.stringify(scenerie.payload, undefined, 4),
+    );
+    setValue('headers', objectToStringOrEmptyObject(scenerie.headers));
     setResponse(initialState);
   };
 
@@ -77,7 +92,6 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
 
         return;
       }
-      console.log(error.response?.data, 'xtp');
       setResponse({
         data: objectToStringOrEmptyObject(error.response?.data),
         dataType: 'json',
@@ -147,7 +161,7 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
     }
 
     setResponse({
-      data: `Erro no YGGDRASIL, esse método "${method}" não é suportado! para fazer requests`,
+      data: `Erro no pangeia, esse método "${method}" não é suportado! para fazer requests`,
       dataType: 'json',
       status: '',
     });
@@ -159,23 +173,25 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
   const isUpdated =
     watch('url') !== contentRequest.url ||
     watch('method') !== contentRequest.method ||
-    watch('payload') !== contentRequest.payload ||
-    watch('headers') !== objectToStringOrEmptyObject(contentRequest.headers);
+    watch('payload') !== scenerie.payload ||
+    watch('headers') !== objectToStringOrEmptyObject(scenerie.headers);
 
   return (
-    <div key={contentRequest.dynamicId}>
+    <div key={contentRequest.dynamicId} className="min-h-[150vh]">
       {isUpdated ? (
-        <div>
-          <div>Os dados da request foram alterados!</div>
+        <div className="min-h-[2.5rem]">
           <button
+            key="isUpdated"
             type="button"
-            className="bg-primary-700 text-white px-3 py-2 rounded-md flex items-center gap-3"
+            className="bg-primary-700 text-white px-3 py-2 rounded-md flex items-center gap-3 animate-fadeInSpeed"
             onClick={() => reset()}>
+            <div>Os dados da request foram alterados!</div>
             <GrPowerReset /> Resetar
           </button>
         </div>
-      ) : undefined}
-
+      ) : (
+        <div className="min-h-[2.5rem]"></div>
+      )}
       <div className="flex gap-4 items-center justify-center">
         <DropDown control={control} name="method" data={dataMethod} className="" defaultValue={contentRequest.method} />
 
@@ -184,15 +200,8 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
       <div>
         <h1>Payload</h1>
         {payloadIsValid ? <div></div> : <div>Payload é inválido</div>}
-        <TextArea
-          className="font-mono"
-          name="payload"
-          control={control}
-          defaultValue={contentRequest.payload}
-          rows={rows}
-        />
+        <TextArea className="font-mono" name="payload" control={control} defaultValue={scenerie.payload} rows={rows} />
       </div>
-
       <div>
         <h1>headers</h1>
         {headerIsValid ? <div></div> : <div>Payload é inválido</div>}
@@ -200,31 +209,60 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
           className="font-mono"
           name="headers"
           control={control}
-          defaultValue={objectToStringOrEmptyObject(contentRequest.headers)}
+          defaultValue={objectToStringOrEmptyObject(scenerie.headers)}
           rows={rowsHeaders}
         />
       </div>
-
-      <div>
+      <div className="flex gap-2">
         <button
           type="button"
           onClick={() => makeRequest()}
           disabled={!headerIsValid || !payloadIsValid}
           aria-label="Fazer request"
-          className="bg-primary-500 dark:bg-primary-600 text-white-smooth px-3 py-2 rounded-md flex gap-4">
+          className="bg-primary-500 dark:bg-primary-600 text-white-smooth px-3 py-2 rounded-md flex gap-4 mt-4 items-center justify-center">
           Fazer request
           <IoIosSend />
         </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            // eslint-disable-next-line no-alert
+            alert('Feature não está pronta');
+          }}
+          disabled={!headerIsValid || !payloadIsValid}
+          aria-label="Copiar curl"
+          className="bg-primary-500 dark:bg-primary-600 text-white-smooth px-3 py-2 rounded-md flex gap-4 mt-4 items-center justify-center">
+          Copiar Curl
+          <PiBracketsCurlyThin />
+        </button>
       </div>
-
       {response.status || response.data ? (
-        <div>
-          <div className="flex gap-4">
-            <div>Status</div>
+        <div
+          className="bg-primary border-2 border-primary-500 mt-4 py-2 rounded-md animate-fadeInSpeed"
+          key="response-status">
+          <div className="flex gap-4 justify-between items-center">
+            <div className="flex gap-4 px-4">
+              <div>Status</div>
 
-            <div>{response.status ? <div>{response.status}</div> : undefined}</div>
+              <div>
+                {response.status ? (
+                  <div>
+                    {response.status} {messageByStatusCode[Number(response.status) || 0] || ''}
+                  </div>
+                ) : undefined}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="px-6 py-4"
+              onClick={() => {
+                setResponse(initialState);
+              }}>
+              <AiFillCloseCircle className="min-w-[2rem] text-2xl" />
+            </button>
           </div>
-
           {response.data ? (
             <MarkdownToHtml
               mode={ModeTypeEnum.dev}
@@ -233,7 +271,47 @@ export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
         </div>
       ) : undefined}
 
+      {scenerie?.description ? <InterpreterMarkdown text={scenerie?.description} /> : null}
+
+      {scenerie?.description ? (
+        <InterpreterMarkdown text={`\n\`\`\`json\n${JSON.stringify(scenerie.payload, undefined, 4)} `} />
+      ) : null}
+
       <Status error="" isLoading={isLoading} />
+
+      <div className="min-h-[200px]"></div>
+    </div>
+  );
+};
+
+export const RequestHandler = ({ contentRequest }: Props): ReactElement => {
+  const [selectedResponse, setSelectedResponse] = useState<swaggerRequestType['sceneries'][0] | undefined>(
+    contentRequest['sceneries'][0] || undefined,
+  );
+
+  const shouldIgnoreScenaries =
+    contentRequest.sceneries.length === 1 && contentRequest.sceneries[0].response.status === 0;
+  return (
+    <div key={contentRequest.dynamicId}>
+      {!shouldIgnoreScenaries &&
+        contentRequest.sceneries.map((test, index: number) => {
+          return (
+            <MenuScenaries
+              key={`${test.description}-${test.summary}-${index}`}
+              isSelected={selectedResponse?.response.status === test.response.status}
+              text={test.response.status}
+              onClick={(): void => setSelectedResponse(test)}
+            />
+          );
+        })}
+
+      {selectedResponse ? (
+        <RequestHandlerChildren
+          key={selectedResponse.response.status}
+          scenerie={selectedResponse}
+          contentRequest={contentRequest}
+        />
+      ) : undefined}
     </div>
   );
 };

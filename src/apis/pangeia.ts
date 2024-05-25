@@ -15,7 +15,7 @@ export const cancelAllRequests = (): void => {
   cancelTokens = [];
 };
 
-export class YggdrasilApi {
+export class PangeiaApi {
   static get(relativeUrl: string, configs: AxiosRequestConfig<object> = {}): Promise<AxiosResponse> {
     const source = Axios.CancelToken.source();
     cancelTokens.push(source);

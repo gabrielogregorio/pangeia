@@ -1,4 +1,4 @@
-import { YggdrasilApi } from '../../apis/yggdrasil';
+import { PangeiaApi } from '../../apis/pangeia';
 
 export interface ICreateAndUpdateComments {
   postId: string;
@@ -13,22 +13,22 @@ export interface IResponseComments extends ICreateAndUpdateComments {
 
 export class CommentsService {
   public static async create(payload: ICreateAndUpdateComments): Promise<IResponseComments> {
-    return (await YggdrasilApi.post('/comments', payload)).data;
+    return (await PangeiaApi.post('/comments', payload)).data;
   }
 
   public static async getAll(): Promise<IResponseComments[]> {
-    return (await YggdrasilApi.get('/comments')).data;
+    return (await PangeiaApi.get('/comments')).data;
   }
 
   public static async getByPostId(postId: string): Promise<IResponseComments[]> {
-    return (await YggdrasilApi.get(`/comments/posts/${postId}`)).data;
+    return (await PangeiaApi.get(`/comments/posts/${postId}`)).data;
   }
 
   public static async update(commentId: string, payload: ICreateAndUpdateComments): Promise<IResponseComments> {
-    return (await YggdrasilApi.put(`/comments/${commentId}`, payload)).data;
+    return (await PangeiaApi.put(`/comments/${commentId}`, payload)).data;
   }
 
   public static async delete(commentId: string): Promise<void> {
-    await YggdrasilApi.delete(`/comments/${commentId}`);
+    await PangeiaApi.delete(`/comments/${commentId}`);
   }
 }

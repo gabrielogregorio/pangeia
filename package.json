@@ -1,6 +1,6 @@
 {
-  "name": "yggdrasil-ui",
-  "version": "3.1.0",
+  "name": "pangeia",
+  "version": "0.2.0",
   "homepage": "/docs",
   "main": "build/index.js",
   "type": "module",
@@ -70,6 +70,7 @@
     "@headlessui/react": "^2.0.3",
     "@hookform/resolvers": "^3.3.4",
     "axios": "^1.6.8",
+    "openapi-typescript": "^6.7.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",

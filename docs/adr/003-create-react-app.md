@@ -11,7 +11,7 @@ Date: 03/12/2022
 
 ## Context
 
-We needed a reactive framework for yggdrasil-ui development
+We needed a reactive framework for pangeia development
 
 ## Decision
 

@@ -23,6 +23,7 @@ export const LateralButton = ({ ariaLabel, icon, action, variant }: ILateralButt
       <button
         onClick={() => action()}
         type="button"
+        title=""
         aria-label={ariaLabel}
         className={`${styleVariant} p-3 rounded-full transition-all duration-150 shadow-xl min-w-[48px] min-h-[48px]`}>
         {icon}

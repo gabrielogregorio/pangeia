@@ -1,6 +1,6 @@
 {
-  "short_name": "yggdrasil",
-  "name": "generate docs by test",
+  "short_name": "pangeia",
+  "name": "collect docs by multiple fonts",
   "icons": [
     {
       "src": "favicon.ico",
