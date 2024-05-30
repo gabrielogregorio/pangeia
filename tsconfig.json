@@ -18,6 +18,7 @@
       "@/layout/*": ["src/components/layout/*"],
       "@/widgets/*": ["src/components/widgets/*"],
       "@/components/*": ["src/components/*"],
+      "@/core/*": ["src/core/*"],
       "@/contexts/*": ["src/core/contexts/*"],
       "@/helpers/*": ["src/core/helpers/*"],
       "@/features/*": ["src/features/*"],

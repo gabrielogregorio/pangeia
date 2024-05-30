@@ -23,8 +23,8 @@ export const useUrlChange = () => {
     }
 
     const postFounded = findDocByTags(data.schema, path);
-    if (postFounded) {
-      setDocSelected(postFounded);
+    if (postFounded.length) {
+      setDocSelected(postFounded[0]); // FIXME
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

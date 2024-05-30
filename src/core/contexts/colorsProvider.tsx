@@ -38,8 +38,8 @@ export const ColorsProvider = ({ children }: { children: ReactNode }): ReactElem
   const [colorSelectedName, setColorSelected] = useState<colorsType>(realColor);
 
   const updateToColor = (ColorsLocal: colorsType) => {
-    localStorage.setItem(keyStorage, ColorsLocal);
     setColorSelected(ColorsLocal);
+    localStorage.setItem(keyStorage, ColorsLocal);
 
     const colorSelected = colors[ColorsLocal];
 
@@ -49,7 +49,7 @@ export const ColorsProvider = ({ children }: { children: ReactNode }): ReactElem
   };
 
   const colorSelected = colors[colorSelectedName];
-  const value: ColorsContextType = useMemo(() => ({ colors, updateToColor, colorSelected }), []);
+  const value: ColorsContextType = useMemo(() => ({ colors, updateToColor, colorSelected }), [colorSelectedName]);
 
   return <ColorsContext.Provider value={value}>{children}</ColorsContext.Provider>;
 };

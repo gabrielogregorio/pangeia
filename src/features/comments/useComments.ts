@@ -2,12 +2,11 @@ import { useStatus } from '@/hooks/useStatus';
 import { CommentsService, ICreateAndUpdateComments, IResponseComments } from './services/comments';
 import { useState } from 'react';
 
-// eslint-disable-next-line max-lines-per-function
 export const useComments = () => {
   const { error, isLoading, startFetch, setErrorMessage, setIsLoading } = useStatus();
   const [comments, setComments] = useState<IResponseComments[]>([]);
 
-  const createComment = (payload: ICreateAndUpdateComments, onSuccess: () => void) => {
+  const createComment = ({ onSuccess, payload }: { payload: ICreateAndUpdateComments; onSuccess: () => void }) => {
     startFetch();
 
     CommentsService.create(payload)
@@ -15,7 +14,7 @@ export const useComments = () => {
         onSuccess();
       })
       .catch((err) => {
-        setErrorMessage(err?.response?.data?.message || 'Erro ao criar post');
+        setErrorMessage(err?.response?.data?.message || 'Erro ao adicionar comentário');
       })
       .finally(() => {
         setIsLoading(false);
@@ -30,14 +29,14 @@ export const useComments = () => {
         setComments(data);
       })
       .catch((err) => {
-        setErrorMessage(err?.response?.data?.message || 'Erro ao obter posts');
+        setErrorMessage(err?.response?.data?.message || 'Erro ao obter comentários');
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  const getByPostId = (postId: string) => {
+  const getByPostId = ({ postId }: { postId: string }) => {
     startFetch();
 
     CommentsService.getByPostId(postId)
@@ -45,14 +44,22 @@ export const useComments = () => {
         setComments(data);
       })
       .catch((err) => {
-        setErrorMessage(err?.response?.data?.message || 'Erro ao obter post pelo id');
+        setErrorMessage(err?.response?.data?.message || 'Erro ao obter comentários pelo id do post');
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  const updateById = (commentId: string, payload: ICreateAndUpdateComments, onSuccess: () => void) => {
+  const updateById = ({
+    commentId,
+    onSuccess,
+    payload,
+  }: {
+    commentId: string;
+    payload: ICreateAndUpdateComments;
+    onSuccess: () => void;
+  }) => {
     startFetch();
 
     CommentsService.update(commentId, payload)
@@ -60,14 +67,14 @@ export const useComments = () => {
         onSuccess();
       })
       .catch((err) => {
-        setErrorMessage(err?.response?.data?.message || 'Erro ao atualizar commentario pelo id');
+        setErrorMessage(err?.response?.data?.message || 'Erro ao atualizar o comentário');
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  const deleteById = (commentId: string, onSuccess: () => void) => {
+  const deleteById = ({ commentId, onSuccess }: { commentId: string; onSuccess: () => void }) => {
     startFetch();
 
     CommentsService.delete(commentId)

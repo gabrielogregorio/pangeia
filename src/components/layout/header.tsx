@@ -9,7 +9,7 @@ export const Header = (): ReactElement => {
   return (
     <div
       style={{ height: '3.5rem' }}
-      className="w-full bg-primary-500 dark:bg-primary-700 p-3 py-2 flex items-center h-[3.5rem] min-h-[3.5rem]">
+      className="w-full bg-primary-600 dark:bg-primary-700 p-3 py-2 flex items-center h-[3.5rem] min-h-[3.5rem]">
       <header className="text-white-smooth font-bold text-3xl uppercase w-full flex items-center justify-center ">
         <div className=" text-white-smooth font-bold text-xl text-left p-3 py-2 uppercase flex items-center h-[3.5rem] min-h-[3.5rem]">
           <button

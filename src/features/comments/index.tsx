@@ -2,24 +2,19 @@ import { Modal } from '@/widgets/modal';
 import { useContext } from 'react';
 import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { modalControllerType } from '@/hooks/useModalController';
-import { ICreateAndUpdateComments, IResponseComments } from '@/features/services/comments';
-import { Comments } from '@/features/Comments';
+import { ICreateAndUpdateComments, IResponseComments } from '@/features/comments/services/comments';
+import { Comments } from '@/features/comments/Comments';
 
-export const ModalComments = ({
-  controller,
-  getByPostId,
-  comments,
-  createComment,
-  error,
-  isLoading,
-}: {
+type Props = {
   controller: modalControllerType;
   createComment: (payload: ICreateAndUpdateComments, onSuccess: () => void) => void;
   comments: IResponseComments[];
   error: string;
   isLoading: boolean;
   getByPostId: (postId: string) => void;
-}) => {
+};
+
+export const ModalComments = ({ controller, getByPostId, comments, createComment, error, isLoading }: Props) => {
   const { docSelected } = useContext(DocSelectedContext);
   const postId = docSelected?.id;
 

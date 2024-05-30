@@ -3,8 +3,8 @@ import { LateralButton } from './LateralButton';
 import { MdMessage } from 'react-icons/md';
 import { DocSelectedContext } from '@/contexts/docSelectedProvider';
 import { useModalController } from '@/hooks/useModalController';
-import { useComments } from '@/features/useComments';
-import { ModalComments } from '@/features/index';
+import { useComments } from '@/features/comments/useComments';
+import { ModalComments } from '@/features/comments/index';
 import { ModalMarkdown } from '@/widgets/modalMarkdown';
 import { FaMarkdown } from 'react-icons/fa6';
 
@@ -18,7 +18,7 @@ export const FloatingActionButtons = () => {
 
   useEffect(() => {
     if (postId) {
-      getByPostId(postId);
+      getByPostId({ postId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);

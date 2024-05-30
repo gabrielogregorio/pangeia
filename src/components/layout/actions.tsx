@@ -49,7 +49,7 @@ export const Actions = (): ReactElement => {
             type="button"
             onClick={() => setColorsIsOpen((prev) => !prev)}
             key={'color'}
-            title={`Cor ${'colorSelected'}`}
+            title={`Cor ${colorSelected}`}
             style={{
               background: colorSelected?.['--primary-color-500'],
               borderColor: colorSelected?.['--primary-color-400'],
@@ -90,16 +90,16 @@ export const Actions = (): ReactElement => {
             type="button"
             data-testid="change-theme"
             onClick={(): void => toggleTheme()}
-            className="bg-primary-600 dark:bg-primary-600 ring-primary-600 dark:ring-primary-600 ring-2 w-16 flex rounded-xl relative select-none">
+            className="bg-primary-700 dark:bg-primary-600 ring-primary-700 dark:ring-primary-600 ring-2 w-16 flex rounded-xl relative select-none">
             <div
               className={`h-full aspect-square rounded-full bg-white-smooth absolute transition-all duration-150 top-0 ${styleTheme}`}
             />
 
-            <div className="flex-1 p-1 flex items-center justify-center">
+            <div className="flex-1 p-1 flex items-center justify-center min-h-[24px]">
               <IconLight />
             </div>
 
-            <div className="flex-1 p-1 flex items-center justify-center">
+            <div className="flex-1 p-1 flex items-center justify-center min-h-[24px]">
               <IconDark />
             </div>
           </button>

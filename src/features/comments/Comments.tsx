@@ -1,12 +1,12 @@
 import { Comment } from './comment';
 import { useEffect } from 'react';
 import { TextArea } from '@/components/base/TextArea';
-import { useRegisterAddComments } from '@/features/useRegisterAddComments';
-import { ICommentFields } from '@/features/useRegisterComments';
+import { useFormAddComments } from '@/features/comments/useFormAddComments';
+import { ICommentFields } from '@/features/comments/useFormComments';
 import { IoSend } from 'react-icons/io5';
 import { Status } from '@/components/base/Status';
 import { PiFinnTheHumanFill } from 'react-icons/pi';
-import { ICreateAndUpdateComments, IResponseComments } from '@/features/services/comments';
+import { ICreateAndUpdateComments, IResponseComments } from '@/features/comments/services/comments';
 
 type Props = {
   postId: string;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const Comments = ({ getByPostId, postId, comments, createComment, error, isLoading }: Props) => {
-  const { control, watch, setValue } = useRegisterAddComments();
+  const { control, watch, setValue } = useFormAddComments();
   const message = watch('comment');
 
   useEffect(() => {
@@ -26,7 +26,22 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
-  const buttonSendIsDisabled = Boolean(message) === false;
+  const buttonSendIsDisabled = !message;
+
+  const handleCreateComment = () => {
+    const onCreateComment = () => {
+      getByPostId(postId);
+      setValue('comment', '');
+    };
+
+    createComment(
+      {
+        message: message,
+        postId,
+      },
+      onCreateComment,
+    );
+  };
 
   return (
     <div className="shadow-lg shadow-dark text-dark/80 dark:text-white-smooth bg-white-smooth dark:bg-dark w-full rounded-lg max-h-[80vh] overflow-auto">
@@ -37,7 +52,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
           return (
             <Comment
               key={comment._id}
-              id={comment._id}
+              commentId={comment._id}
               message={comment.message}
               getByPostId={getByPostId}
               postId={postId}
@@ -62,18 +77,7 @@ export const Comments = ({ getByPostId, postId, comments, createComment, error, 
           aria-label="Cancelar"
           className=" disabled:hover:bg-transparent hover:bg-primary-300 dark:hover:bg-primary-600 px-2 py-1 rounded-md"
           disabled={buttonSendIsDisabled}
-          onClick={() =>
-            createComment(
-              {
-                message: message,
-                postId,
-              },
-              () => {
-                getByPostId(postId);
-                setValue('comment', '');
-              },
-            )
-          }>
+          onClick={handleCreateComment}>
           <IoSend className={buttonSendIsDisabled ? 'text-primary-200 dark:text-gray-600' : ''} />
         </button>
       </div>

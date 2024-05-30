@@ -10,8 +10,8 @@ export interface ICommentFields extends FieldValues {
   comment: string;
 }
 
-export const useRegisterAddComments = () => {
-  const { handleSubmit, control, formState, watch, setValue, reset } = useForm<ICommentFields>({
+export const useFormComment = () => {
+  const { handleSubmit, control, formState, watch, setValue } = useForm<ICommentFields>({
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
     resolver: yupResolver(commentSchema),
@@ -23,7 +23,6 @@ export const useRegisterAddComments = () => {
 
   return {
     control,
-    reset,
     setValue,
     watch,
     errors: formState.errors,

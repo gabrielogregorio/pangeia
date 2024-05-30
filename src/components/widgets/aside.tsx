@@ -19,7 +19,7 @@ export const Aside = (): ReactElement => {
 
   return (
     <aside
-      className={`absolute top-0 ${styleMenuIsOpen} z-20 bottom-0 left-0 lg:relative lg:block lg:col-span-3 bg-white-smooth dark:bg-dark-max transition-colors duration-300 border-r-2 border-primary-200 dark:border-dark/20`}>
+      className={`absolute top-0 ${styleMenuIsOpen} z-20 bottom-0 left-0 lg:relative lg:block lg:col-span-3 bg-white-smooth dark:bg-dark-max transition-colors duration-300 border-r-2 border-primary-500 dark:border-dark/20`}>
       <nav>
         <div className={`flex items-center border-2 rounded-md ${styleOnHasFilter} m-2 mx-4 transition duration-150 `}>
           <input

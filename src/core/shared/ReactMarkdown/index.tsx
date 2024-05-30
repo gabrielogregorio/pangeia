@@ -73,13 +73,15 @@ const strongTag = ({ children }: Partial<partialChildrenType>): ReactElement => 
 );
 
 const aTag = ({ href, children }: { href?: string; children?: ReactNode }): ReactElement => (
-  <a target="_blank" rel="noreferrer" href={href} className="text-primary-500 dark:text-primary-300 hover:underline">
+  <a target="_blank" rel="noreferrer" href={href} className="text-primary-600 dark:text-primary-300 hover:underline">
     {children}
   </a>
 );
 
 const imgTag = ({ src, title, alt }: { src?: string; alt?: string; title?: string }): ReactElement => (
-  <img src={`${src}`} alt={alt} title={title} />
+  <div className="w-[80%] mx-auto">
+    <img src={`${src}`} alt={alt} title={title} />
+  </div>
 );
 
 const codeTag = ({
@@ -97,7 +99,7 @@ const codeTag = ({
 
   const inline = typeof startLine === 'number' && typeof endLine === 'number' && startLine === endLine;
   return (
-    <Code className={className || ''} inline={inline}>
+    <Code className={`${className || ''}`} inline={inline}>
       {children}
     </Code>
   );

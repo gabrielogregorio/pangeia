@@ -9,14 +9,6 @@ import axios from 'axios';
 import { extractReferences } from '@/widgets/documentation/extractReferences';
 import { findDocByTags } from '@/components/findDocByTags';
 
-const howResolveCodeWithoutLanguage = `
-Para resolver esse problema, basta especificar uma linguagem na definição do código, tipo
-
-    \`\`\`linguagemAquiComoTsJSPyBashEtc
-    seuCodigo
-    \`\`\`
-`;
-
 export const useFetchDocsAndSaveContext = () => {
   const { currentUrlOrigin } = getUrlApi();
   const { setData, setError, setIsLoading } = useContext(DataContext);
@@ -55,15 +47,14 @@ export const useFetchDocsAndSaveContext = () => {
 
       finalData.map((item) => {
         item.warning?.forEach((item2) => {
-          const howResolve = item2.type === 'code-without-language' ? howResolveCodeWithoutLanguage : 'Sem solução';
           warningSchema.push({
-            markdown: `HANDLER ${item.handlerName} - ${item2.file}\n\n${howResolve} problemas encontrados nesses pontos \n\n${item2.code
+            markdown: `${item2.message}  \n- Handler: ${item.handlerName}\n- Arquivo: ${item2.file}\n- Trechos: \n\n${item2.code
               .map((lineLocal) => {
                 return lineLocal
                   .split('\n')
                   .map((itemInside) => {
-                    const resolved = JSON.stringify(itemInside);
-                    return '    ' + resolved.slice(1, resolved.length - 1) + '  ';
+                    const resolved = itemInside;
+                    return '       ' + resolved + '    ';
                   })
                   .join('\n');
               })
@@ -120,7 +111,7 @@ export const useFetchDocsAndSaveContext = () => {
           references.forEach((itemReference) => {
             if (itemReference.type === 'reference') {
               const docByTagFounded = findDocByTags(finalData, itemReference.reference.split('.'));
-              if (!docByTagFounded) {
+              if (!docByTagFounded.length) {
                 errors.push({
                   dynamicId: Math.random().toString(),
                   type: 'md',

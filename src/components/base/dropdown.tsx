@@ -39,7 +39,7 @@ export const DropDown = <T extends FieldValues>({
       onChange={handleChange}
       value={value}
       className={tailwindMerge(
-        'text-base bg-primary-600 dark:bg-primary-700 border-2 border-primary-600 dark:border-primary-600 rounded-md px-1 py-1',
+        'text-base bg-primary-600 dark:bg-primary-700 border-2 border-primary-500 dark:border-primary-600 rounded-md px-1 py-1',
         className,
       )}>
       {data.map((item) => {

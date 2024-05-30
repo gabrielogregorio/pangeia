@@ -1,5 +1,3 @@
-/* eslint-disable spellcheck/spell-checker */
-/* eslint-disable max-lines */
 import { ReactElement } from 'react';
 
 export const IconMenu = (): ReactElement => {
@@ -58,7 +56,7 @@ export const MainLogo = (): ReactElement => {
       src="/logo_white.png"
       width={512}
       height={512}
-      aria-hidden={true}
+      role="none"
       alt=""
       className="w-full object-cover max-w-[24px]"
     />

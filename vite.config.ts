@@ -17,6 +17,7 @@ export default defineConfig({
       '@/helpers': resolve(__dirname, './src/core/helpers'),
       '@/features': resolve(__dirname, './src/features'),
       '@/hooks': resolve(__dirname, './src/core/hooks'),
+      '@/core': resolve(__dirname, './src/core'),
       '@/interfaces': resolve(__dirname, './src/core/interfaces'),
       '@/normalizers': resolve(__dirname, './src/core/normalizers'),
       '@/shared': resolve(__dirname, './src/core/shared'),

@@ -20,7 +20,7 @@ export const ContextItems = ({ data, contextName }: { data: SchemaType[]; contex
             <h2 className="">
               <button
                 type="button"
-                className="w-full flex items-center justify-between rounded-md px-2 text-left p-2 text-lg font-bold dark:text-gray-200 text-gray-600 uppercase hover:text-primary-500 hover:bg-gray-200 hover:dark:bg-gray-700 transition-colors duration-700 hover:duration-75 "
+                className="w-full flex items-center justify-between rounded-md px-2 text-left p-2 text-lg font-bold dark:text-gray-200 text-gray-600 uppercase hover:text-primary-600 hover:bg-gray-200 hover:dark:bg-gray-700 transition-colors duration-700 hover:duration-75 "
                 onClick={() => setContextIsOpen((prev) => !prev)}>
                 <div>{contextName}</div>
                 <div>{contextIsOpen ? <FaCircleMinus /> : <FaPlusCircle />}</div>

@@ -1,4 +1,4 @@
-import { PangeiaApi } from '../../apis/pangeia';
+import { PangeiaApi } from '@/core/apis/pangeia';
 
 export interface ICreateAndUpdateComments {
   postId: string;

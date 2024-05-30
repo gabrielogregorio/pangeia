@@ -42,7 +42,7 @@ const sortByContexts = (data: responseApi): hierarchicalModelType => {
 };
 
 export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
-  const { data } = useContext(DataContext);
+  const { data, error, isLoading } = useContext(DataContext);
   const [dataWithContext, setDataWithContext] = useState<hierarchicalModelType>({});
   const [dataFiltered, setDataFiltered] = useState<hierarchicalModelType>({});
 
@@ -82,14 +82,16 @@ export const GroupSuits = ({ filter }: { filter: string }): ReactElement => {
 
   return (
     <div>
-      {data.hierarchy.map((key) => {
-        const items = dataFiltered[key.title];
-        if (items) {
-          return <ContextItems contextName={key.title} key={key.title} data={dataFiltered[key.title]} />;
-        }
+      {!error &&
+        !isLoading &&
+        data.hierarchy.map((key) => {
+          const items = dataFiltered[key.title];
+          if (items) {
+            return <ContextItems contextName={key.title} key={key.title} data={dataFiltered[key.title]} />;
+          }
 
-        return <div key={key.title}>Hiearquia desconhecida - {JSON.stringify(key)}</div>;
-      })}
+          return <div key={key.title}>Hiearquia desconhecida - {JSON.stringify(key)}</div>;
+        })}
     </div>
   );
 };
